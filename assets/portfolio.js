@@ -236,7 +236,6 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
-<<<<<<< Updated upstream
     slug: "ae-spc",
     track: "health-data",
     status: "live",
@@ -256,8 +255,6 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
-=======
->>>>>>> Stashed changes
     slug: "patient-flow-sql",
     track: "health-data",
     status: "live",
