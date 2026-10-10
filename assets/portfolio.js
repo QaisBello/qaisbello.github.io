@@ -51,7 +51,7 @@ window.PROFILE = {
   links: {
     linkedin: "https://www.linkedin.com/in/qais-adeniji-bello/",
     github: "https://github.com/QaisBello",
-    email: ""            // add your email here to show it on the site, e.g. "you@example.com"
+    email: "qaismoyo19@gmail.com"
   }
 };
 
@@ -89,7 +89,7 @@ window.PROJECTS = [
       ["49% vs 6%", "women vs men deferred"]
     ],
     page: "data-analytics/lifeblood-ledger/index.html",
-    repo: "QaisBello/lifeblood-ledger",
+    repo: "QaisBello/One-health-life-savers-blood-ledger",
     branch: "main",
     dataFile: "data/cleaned/fact_responses.csv",
     image: { dark: "assets/img/lifeblood-dark.jpg", light: "assets/img/lifeblood-light.jpg" },
@@ -201,7 +201,7 @@ window.PROJECTS = [
     headline: "Messy exports in, tested tables out.",
     highlights: [["6", "stages"], ["6", "quality gates"], ["0", "PII published"]],
     page: "data-engineering/lifeblood-pipeline/index.html",
-    repo: "QaisBello/lifeblood-pipeline",
+    repo: "QaisBello/One-health-life-savers-blood-ledger-elt",
     branch: "main",
     dataFile: "data/published/fact_responses.csv",
     rowsLabel: "published rows",

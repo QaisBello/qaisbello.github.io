@@ -14,7 +14,7 @@ Plain HTML, CSS and JavaScript. No build step, no server, free to host on GitHub
 Each dashboard fetches its cleaned CSV from its own project repo every time the page opens:
 
 ```
-https://raw.githubusercontent.com/QaisBello/lifeblood-ledger/main/data/cleaned/fact_responses.csv
+https://raw.githubusercontent.com/QaisBello/One-health-life-savers-blood-ledger/main/data/cleaned/fact_responses.csv
 ```
 
 Update the CSV in the project repo and the dashboard (and the row counts on the home page) update on the next page load. If GitHub can't be reached, the dashboard falls back to the snapshot in `data-analytics/<project>/data/`.
