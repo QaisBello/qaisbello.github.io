@@ -236,6 +236,25 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
+    slug: "ae-spc",
+    track: "health-data",
+    status: "live",
+    title: "A&E, read with SPC",
+    client: "NHS England A&E statistics (public data)",
+    summary: "Four-hour performance for every major A&E in England since January 2020, in Making Data Count SPC charts: what is real change and what is noise, and which trusts will miss the 82% target unless something changes. 82 raw monthly files are reconciled to the NAO's published 74.9%.",
+    headline: "Which A&Es will hit the four-hour target, and which won't.",
+    highlights: [["100/120", "trusts set to miss 82%"], ["74.9%", "2025-26, matches the NAO"], ["268", "charts checked, Python vs JS"]],
+    page: "health-data/ae-spc/index.html",
+    repo: "QaisBello/nhs-ae-spc",
+    branch: "main",
+    dataFile: "data/clean/ae_monthly.csv",
+    rowsLabel: "provider-months",
+    image: { dark: "assets/img/aespc-dark.jpg", light: "assets/img/aespc-light.jpg" },
+    stack: ["Python", "pandas", "SPC", "D3.js", "JavaScript", "pytest"],
+    cta: "Open the dashboard",
+    date: "2026-10"
+  },
+  {
     slug: "patient-flow-sql",
     track: "health-data",
     status: "live",
