@@ -11,12 +11,14 @@
     sset(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
 
+  const inTrack = (p, id) => p.track === id || (p.also || []).includes(id);
   /* ---------- glyphs */
   const GLYPH = {
     bars: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V11M10 20V5M16 20v-7M22 20H2"/></svg>',
     scatter: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="17" r="1.8"/><circle cx="9" cy="14" r="1.8"/><circle cx="12" cy="15" r="1.8"/><circle cx="15" cy="9" r="1.8"/><circle cx="19" cy="6" r="1.8"/><path d="M3 20 21 4" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2.5" fill="none"/></svg>',
     pipe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="6" height="6" rx="1.5"/><rect x="16" y="14" width="6" height="6" rx="1.5"/><path d="M8 7h4a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2"/></svg>',
     beam: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9h20"/><path d="M4 9l-2 4h4zM20 9l-2 4h4z"/><path d="M8 4v5M12 3v6M16 4v5" stroke-width="1.6"/><path d="M6.5 6.5 8 9l1.5-2.5M10.5 6.5 12 9l1.5-2.5M14.5 6.5 16 9l1.5-2.5" stroke-width="1.4"/><path d="M3 18c4 3 14 3 18 0" stroke-dasharray="2 2"/></svg>',
+    pulse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-5 4 10 3-7 2 2h5"/></svg>',
     nodes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><circle cx="12" cy="13" r="2.2" fill="currentColor"/><path d="M12 7.2v3.6M10.2 14.3 6.8 16.8M13.8 14.3l3.4 2.5"/></svg>'
   };
   const ICON = {
@@ -65,7 +67,7 @@
   const idx = $("#index-body");
   if (idx) {
     idx.innerHTML = TRACKS.map(t => {
-      const ps = PROJECTS.filter(p => p.track === t.id);
+      const ps = PROJECTS.filter(p => inTrack(p, t.id));
       const live = ps.filter(p => p.status === "live");
       return `<tr>
         <td><span class="sw" style="background:var(--t-${t.id})"></span><a href="${ROOT}${t.path}">${esc(t.name.toLowerCase().replace(/ /g, "_"))}</a></td>
@@ -78,7 +80,7 @@
   }
 
   document.querySelectorAll("[data-track-chip]").forEach(el => {
-    const n = PROJECTS.filter(p => p.track === el.dataset.trackChip && p.status === "live").length;
+    const n = PROJECTS.filter(p => inTrack(p, el.dataset.trackChip) && p.status === "live").length;
     el.className = "chip " + (n ? "live" : "soon"); el.textContent = n ? `${n} live` : "Coming soon";
   });
 
@@ -110,7 +112,7 @@
   const gal = $("#gallery");
   if (gal) {
     const track = gal.dataset.track;
-    const ps = PROJECTS.filter(p => p.track === track);
+    const ps = PROJECTS.filter(p => p.track === track).concat(PROJECTS.filter(p => p.track !== track && inTrack(p, track)));
     gal.innerHTML = ps.map(p => `<article class="card">
         <a class="shot" href="${ROOT}${p.page}" aria-label="Open ${esc(p.title)}">${shot(p)}</a>
         <div class="body">

@@ -57,6 +57,9 @@ window.PROFILE = {
 };
 
 window.TRACKS = [
+  { id: "health-data", name: "Health Data", path: "health-data/index.html", glyph: "pulse",
+    blurb: "NHS-style hospital data, public health and patient flow: SQL, SPC and inequalities analysis.",
+    coming: ["A&E four-hour performance in Making Data Count SPC charts", "Elective waiting list (RTT) explorer", "Prescribing analysis from the English Prescribing Dataset"] },
   { id: "data-analytics", name: "Data Analytics", path: "data-analytics/index.html", glyph: "bars",
     blurb: "Data cleaning, analysis and live, interactive dashboards. Each dashboard reads its data straight from the project's GitHub repo.",
     coming: ["Operational dashboards for NGOs and small businesses", "Power BI builds with matching DAX and theme kits", "Dashboards that end with recommended actions"] },
@@ -78,6 +81,7 @@ window.PROJECTS = [
   {
     slug: "lifeblood-ledger",
     track: "data-analytics",
+    also: ["health-data"],
     status: "live",
     title: "Lifeblood Ledger",
     client: "One Health Lifesavers",
@@ -214,6 +218,7 @@ window.PROJECTS = [
   {
     slug: "indoor-air-quality",
     track: "engineering",
+    also: ["health-data"],
     status: "live",
     title: "Breathing Room",
     client: "Building performance field study",
@@ -228,6 +233,25 @@ window.PROJECTS = [
     image: { dark: "assets/img/iaq-dark.jpg", light: "assets/img/iaq-light.jpg" },
     stack: ["Python", "pandas", "NumPy", "D3.js", "pytest"],
     cta: "Open the study",
+    date: "2026-10"
+  },
+  {
+    slug: "patient-flow-sql",
+    track: "health-data",
+    status: "live",
+    title: "Patient flow, in SQL",
+    client: "NHS-style hospital extract (synthetic)",
+    summary: "Twelve questions a trust analyst gets asked, answered in SQL on two years of admitted patient care: bed occupancy, length of stay, 30-day readmissions and age-standardised inequalities. A messy raw extract is cleaned with every fix logged, and the SQL runs live in your browser.",
+    headline: "Bed occupancy, readmissions and inequalities, in SQL.",
+    highlights: [["12", "SQL questions, each checked"], ["1.6×", "deprivation gap, age-standardised"], ["15", "data quality checks logged"]],
+    page: "health-data/patient-flow-sql/index.html",
+    repo: "QaisBello/nhs-patient-flow-sql",
+    branch: "main",
+    dataFile: "data/clean/spells.csv",
+    rowsLabel: "hospital spells",
+    image: { dark: "assets/img/patientflow-dark.jpg", light: "assets/img/patientflow-light.jpg" },
+    stack: ["SQL", "SQLite", "Python", "pandas", "D3.js", "pytest"],
+    cta: "Open the SQL lab",
     date: "2026-10"
   }
 ];
