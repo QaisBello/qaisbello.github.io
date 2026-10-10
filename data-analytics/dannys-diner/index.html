@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Danny&#x27;s Diner SQL case study: ten questions answered in SQL you can run in the browser.">
+<script>try{var t=localStorage.getItem('qab-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<style>body{margin:0}</style>
+<script>(function(){var S={"data/sql/q07.sql": "-- Which item did each member buy just before joining?\nWITH before_join AS (\n  SELECT s.customer_id, s.order_date, m.product_name,\n         RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rnk\n  FROM sales s\n  JOIN members mb ON mb.customer_id = s.customer_id\n  JOIN menu m ON m.product_id = s.product_id\n  WHERE s.order_date < mb.join_date\n)\nSELECT customer_id, order_date, product_name\nFROM before_join\nWHERE rnk = 1\nORDER BY customer_id, product_name;\n", "data/sql/q02.sql": "-- How many days has each customer visited?\nSELECT customer_id, COUNT(DISTINCT order_date) AS visit_days\nFROM sales\nGROUP BY customer_id\nORDER BY customer_id;\n", "data/sql/q03.sql": "-- What was the first item each customer bought?\nWITH ranked AS (\n  SELECT s.customer_id, s.order_date, m.product_name,\n         DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) AS rnk\n  FROM sales s\n  JOIN menu m ON m.product_id = s.product_id\n)\nSELECT DISTINCT customer_id, product_name\nFROM ranked\nWHERE rnk = 1\nORDER BY customer_id, product_name;\n", "data/sql/q05.sql": "-- Which item was most popular for each customer?\nWITH counts AS (\n  SELECT s.customer_id, m.product_name, COUNT(*) AS orders,\n         RANK() OVER (PARTITION BY s.customer_id ORDER BY COUNT(*) DESC) AS rnk\n  FROM sales s\n  JOIN menu m ON m.product_id = s.product_id\n  GROUP BY s.customer_id, m.product_name\n)\nSELECT customer_id, product_name, orders\nFROM counts\nWHERE rnk = 1\nORDER BY customer_id, product_name;\n", "data/sql/q08.sql": "-- How many items, and how much, did each member spend before joining?\nSELECT s.customer_id, COUNT(*) AS items, SUM(m.price) AS spent\nFROM sales s\nJOIN members mb ON mb.customer_id = s.customer_id\nJOIN menu m ON m.product_id = s.product_id\nWHERE s.order_date < mb.join_date\nGROUP BY s.customer_id\nORDER BY s.customer_id;\n", "data/sql/q01.sql": "-- What is the total amount each customer spent?\nSELECT s.customer_id, SUM(m.price) AS total_spent\nFROM sales s\nJOIN menu m ON m.product_id = s.product_id\nGROUP BY s.customer_id\nORDER BY s.customer_id;\n", "data/sql/schema.sql": "-- Danny's Diner: schema and data (Case Study #1 of Danny Ma's 8 Week SQL Challenge).\n-- Written for SQLite; also runs on PostgreSQL and MySQL.\nCREATE TABLE sales   (customer_id VARCHAR(1), order_date DATE, product_id INTEGER);\nCREATE TABLE menu    (product_id INTEGER, product_name VARCHAR(5), price INTEGER);\nCREATE TABLE members (customer_id VARCHAR(1), join_date DATE);\n\nINSERT INTO sales (customer_id, order_date, product_id) VALUES\n  ('A','2021-01-01',1),('A','2021-01-01',2),('A','2021-01-07',2),('A','2021-01-10',3),('A','2021-01-11',3),('A','2021-01-11',3),\n  ('B','2021-01-01',2),('B','2021-01-02',2),('B','2021-01-04',1),('B','2021-01-11',1),('B','2021-01-16',3),('B','2021-02-01',3),\n  ('C','2021-01-01',3),('C','2021-01-01',3),('C','2021-01-07',3);\nINSERT INTO menu (product_id, product_name, price) VALUES (1,'sushi',10),(2,'curry',15),(3,'ramen',12);\nINSERT INTO members (customer_id, join_date) VALUES ('A','2021-01-07'),('B','2021-01-09');\n", "data/sql/index.json": "[\n  {\n    \"id\": \"q01\",\n    \"question\": \"What is the total amount each customer spent?\",\n    \"file\": \"q01.sql\",\n    \"insight\": \"A spent the most ($76), but C only ever orders ramen.\",\n    \"v1_issue\": \"\"\n  },\n  {\n    \"id\": \"q02\",\n    \"question\": \"How many days has each customer visited?\",\n    \"file\": \"q02.sql\",\n    \"insight\": \"B visits most often (6 days) even though A spends more per visit.\",\n    \"v1_issue\": \"v1 used COUNT(order_date), which counts orders, not days: it reported 6 visits for A instead of 4.\"\n  },\n  {\n    \"id\": \"q03\",\n    \"question\": \"What was the first item each customer bought?\",\n    \"file\": \"q03.sql\",\n    \"insight\": \"A ordered two dishes on day one; a query that keeps only one row would hide that.\",\n    \"v1_issue\": \"v1 used ROW_NUMBER(), which picks one arbitrary row when items share the first date, so A's curry was dropped.\"\n  },\n  {\n    \"id\": \"q04\",\n    \"question\": \"What is the most purchased item, and how many times was it bought?\",\n    \"file\": \"q04.sql\",\n    \"insight\": \"Ramen is the clear favourite: 8 of 15 orders.\",\n    \"v1_issue\": \"v1 used SQL Server's TOP 1 while the rest of the script was MySQL, so it couldn't run end to end.\"\n  },\n  {\n    \"id\": \"q05\",\n    \"question\": \"Which item was most popular for each customer?\",\n    \"file\": \"q05.sql\",\n    \"insight\": \"B has no single favourite: a three-way tie, two orders each.\",\n    \"v1_issue\": \"v1 used ROW_NUMBER(), so B's three-way tie collapsed to one arbitrary item.\"\n  },\n  {\n    \"id\": \"q06\",\n    \"question\": \"Which item did each member buy first after joining?\",\n    \"file\": \"q06.sql\",\n    \"insight\": \"A ordered curry on the day they joined; B's first member order was sushi.\",\n    \"v1_issue\": \"v1 used > join_date, which skips A's join-day order. Whether the join day counts is a business rule worth stating explicitly.\"\n  },\n  {\n    \"id\": \"q07\",\n    \"question\": \"Which item did each member buy just before joining?\",\n    \"file\": \"q07.sql\",\n    \"insight\": \"Both members' last pre-join orders included sushi; it may be what converted them.\",\n    \"v1_issue\": \"v1 used ROW_NUMBER(), so A's two last-day items (sushi and curry) became one.\"\n  },\n  {\n    \"id\": \"q08\",\n    \"question\": \"How many items, and how much, did each member spend before joining?\",\n    \"file\": \"q08.sql\",\n    \"insight\": \"B spent more than A before joining ($40 vs $25).\",\n    \"v1_issue\": \"\"\n  },\n  {\n    \"id\": \"q09\",\n    \"question\": \"With $1 = 10 points and 2x points on sushi, how many points does each customer have?\",\n    \"file\": \"q09.sql\",\n    \"insight\": \"B leads on points (940) because of sushi, despite spending less than A.\",\n    \"v1_issue\": \"\"\n  },\n  {\n    \"id\": \"q10\",\n    \"question\": \"With 2x points on everything in a member's first week, how many points do A and B have at the end of January?\",\n    \"file\": \"q10.sql\",\n    \"insight\": \"The first-week bonus pushes A (1,370) well past B (820).\",\n    \"v1_issue\": \"v1 doubled the price but dropped the \\u00d710 points and the sushi rule outside the bonus week, so its totals were in dollars, not points. It also used SQL Server's DATEADD.\"\n  },\n  {\n    \"id\": \"b1\",\n    \"question\": \"Bonus: join everything into one table with a member flag.\",\n    \"file\": \"b1.sql\",\n    \"insight\": \"A tidy, analysis-ready view that Danny's team could use without writing joins.\",\n    \"v1_issue\": \"\"\n  },\n  {\n    \"id\": \"b2\",\n    \"question\": \"Bonus: rank each member's purchases (non-members get NULL).\",\n    \"file\": \"b2.sql\",\n    \"insight\": \"Ranks only count member orders, which is what a loyalty programme needs.\",\n    \"v1_issue\": \"\"\n  }\n]", "data/sql/b2.sql": "-- Bonus: rank each member's purchases (non-members get NULL).\nWITH joined AS (\n  SELECT s.customer_id, s.order_date, m.product_name, m.price,\n         CASE WHEN mb.join_date IS NOT NULL AND s.order_date >= mb.join_date THEN 'Y' ELSE 'N' END AS member\n  FROM sales s\n  JOIN menu m ON m.product_id = s.product_id\n  LEFT JOIN members mb ON mb.customer_id = s.customer_id\n)\nSELECT *,\n       CASE WHEN member = 'Y'\n            THEN RANK() OVER (PARTITION BY customer_id, member ORDER BY order_date) END AS ranking\nFROM joined\nORDER BY customer_id, order_date, product_name;\n", "data/sql/q06.sql": "-- Which item did each member buy first after joining?\nWITH after_join AS (\n  SELECT s.customer_id, s.order_date, m.product_name,\n         RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) AS rnk\n  FROM sales s\n  JOIN members mb ON mb.customer_id = s.customer_id\n  JOIN menu m ON m.product_id = s.product_id\n  WHERE s.order_date >= mb.join_date   -- join day counts as 'after joining'\n)\nSELECT customer_id, order_date, product_name\nFROM after_join\nWHERE rnk = 1\nORDER BY customer_id;\n", "data/sql/b1.sql": "-- Bonus: join everything into one table with a member flag.\nSELECT s.customer_id, s.order_date, m.product_name, m.price,\n       CASE WHEN mb.join_date IS NOT NULL AND s.order_date >= mb.join_date THEN 'Y' ELSE 'N' END AS member\nFROM sales s\nJOIN menu m ON m.product_id = s.product_id\nLEFT JOIN members mb ON mb.customer_id = s.customer_id\nORDER BY s.customer_id, s.order_date, m.product_name;\n", "data/sql/q10.sql": "-- With 2x points on everything in a member's first week, how many points do A and B have at the end of January?\nSELECT s.customer_id,\n       SUM(m.price * 10 *\n           CASE\n             WHEN s.order_date BETWEEN mb.join_date AND DATE(mb.join_date, '+6 days') THEN 2\n             WHEN m.product_name = 'sushi' THEN 2\n             ELSE 1\n           END) AS points\nFROM sales s\nJOIN members mb ON mb.customer_id = s.customer_id\nJOIN menu m ON m.product_id = s.product_id\nWHERE s.order_date <= '2021-01-31'\nGROUP BY s.customer_id\nORDER BY s.customer_id;\n", "data/sql/q09.sql": "-- With $1 = 10 points and 2x points on sushi, how many points does each customer have?\nSELECT s.customer_id,\n       SUM(m.price * 10 * CASE WHEN m.product_name = 'sushi' THEN 2 ELSE 1 END) AS points\nFROM sales s\nJOIN menu m ON m.product_id = s.product_id\nGROUP BY s.customer_id\nORDER BY s.customer_id;\n", "data/sql/q04.sql": "-- What is the most purchased item, and how many times was it bought?\nSELECT m.product_name, COUNT(*) AS times_purchased\nFROM sales s\nJOIN menu m ON m.product_id = s.product_id\nGROUP BY m.product_name\nORDER BY times_purchased DESC\nLIMIT 1;\n", "data/answers/expected.json": "{\n \"q01\": [[\"A\",76],[\"B\",74],[\"C\",36]],\n \"q02\": [[\"A\",4],[\"B\",6],[\"C\",2]],\n \"q03\": [[\"A\",\"curry\"],[\"A\",\"sushi\"],[\"B\",\"curry\"],[\"C\",\"ramen\"]],\n \"q04\": [[\"ramen\",8]],\n \"q05\": [[\"A\",\"ramen\",3],[\"B\",\"curry\",2],[\"B\",\"ramen\",2],[\"B\",\"sushi\",2],[\"C\",\"ramen\",3]],\n \"q06\": [[\"A\",\"2021-01-07\",\"curry\"],[\"B\",\"2021-01-11\",\"sushi\"]],\n \"q07\": [[\"A\",\"2021-01-01\",\"curry\"],[\"A\",\"2021-01-01\",\"sushi\"],[\"B\",\"2021-01-04\",\"sushi\"]],\n \"q08\": [[\"A\",2,25],[\"B\",3,40]],\n \"q09\": [[\"A\",860],[\"B\",940],[\"C\",360]],\n \"q10\": [[\"A\",1370],[\"B\",820]]\n}\n"};var f=window.fetch.bind(window);
+function k(u){u=String(u&&u.url||u).split('?')[0];for(var p in S){if(u===p||u.slice(-(p.length+1))==='/'+p)return p;}return null;}
+window.fetch=function(u,o){var key=k(u);return f(u,o).then(function(r){if(r.ok||!key)return r;return new Response(S[key]);},function(e){if(!key)throw e;return new Response(S[key]);});};})();</script>
+</head>
+<body>
+<title>Danny's Diner SQL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-asm.js"></script>
+<style>
+/* Layout: a diner order ticket. Schema cards across the top, the question list down the left like a menu, an editable query and its result on the right. */
+:root{
+  --paper:#f5f1ea; --ticket:#fffdf8; --ink:#1b1714; --ink-2:#5a524b; --muted:#93897f; --rule:#e5ddd1; --code:#f2ece2;
+  --noren:#b3261e; --noren-ink:#ffffff; --ok:#1f7a3a; --warn:#9a6700; --bar:#2a78d6;
+  --display:"Dela Gothic One","Arial Black",sans-serif; --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#141110; --ticket:#1d1917; --ink:#f3ede4; --ink-2:#c7bdb1; --muted:#8f857b; --rule:#332c27; --code:#252019;
+  --noren:#e0473d; --noren-ink:#141110; --ok:#4cc46d; --warn:#e3a72f; --bar:#3987e5; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --paper:#141110; --ticket:#1d1917; --ink:#f3ede4; --ink-2:#c7bdb1; --muted:#8f857b; --rule:#332c27; --code:#252019;
+  --noren:#e0473d; --noren-ink:#141110; --ok:#4cc46d; --warn:#e3a72f; --bar:#3987e5; color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:26px 56px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3,p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px 40px;align-items:end}
+.noren{display:flex;gap:6px;margin-bottom:14px}
+.noren i{display:block;width:34px;height:46px;background:var(--noren);border-radius:0 0 4px 4px}
+.noren i:nth-child(2){height:52px}.noren i:nth-child(3){height:44px}
+.head h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,7vw,86px);line-height:.95;letter-spacing:-.01em}
+.lede{color:var(--ink-2);font-size:17px;max-width:54ch;margin-top:12px}
+.lede b{color:var(--ink)}
+.src{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.src a{color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}.dot.live{background:var(--ok)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1.5px dashed var(--rule);border-radius:10px;background:var(--ticket)}
+.stats>div{padding:12px 14px;border-right:1.5px dashed var(--rule);min-width:0}
+.stats>div:last-child{border-right:0}
+.stats .v{font-family:var(--display);font-size:clamp(20px,2.2vw,28px);line-height:1.1;white-space:nowrap}
+.stats .k{font-size:12.5px;color:var(--ink-2)}
+/* schema */
+.schema{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
+.tbl{all:unset;cursor:pointer;background:var(--ticket);border:1px solid var(--rule);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;box-sizing:border-box}
+.tbl:hover,.tbl[aria-pressed="true"]{border-color:var(--ink)}
+.tbl:focus-visible{outline:2px solid var(--noren);outline-offset:2px}
+.tbl .t{background:var(--ink);color:var(--ticket);font-family:var(--mono);font-size:13px;padding:8px 12px;display:flex;justify-content:space-between}
+.tbl ul{margin:0;padding:6px 0;list-style:none;font-family:var(--mono);font-size:12.5px}
+.tbl li{padding:3px 12px;display:flex;justify-content:space-between;gap:8px;color:var(--ink-2)}
+.tbl li b{color:var(--ink);font-weight:500}
+.tbl li .key{color:var(--noren);font-size:10.5px}
+.rel{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap}
+/* workbench */
+.bench{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+.menu{background:var(--ticket);border:1px solid var(--rule);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px)}
+.menu .mh{font-family:var(--display);font-size:18px;padding:8px 10px 6px}
+.q{all:unset;cursor:pointer;display:grid;grid-template-columns:34px 1fr 18px;gap:8px;align-items:start;padding:8px 10px;border-radius:8px;font-size:13.5px;line-height:1.35}
+.q:hover{background:var(--code)}
+.q[aria-current="true"]{background:var(--ink);color:var(--ticket)}
+.q:focus-visible{outline:2px solid var(--noren)}
+.q .n{font-family:var(--mono);font-size:11.5px;color:var(--noren);padding-top:1px}
+.q[aria-current="true"] .n{color:var(--ticket);opacity:.7}
+.q .s{font-size:12px;text-align:right}
+.ok{color:var(--ok)}
+.main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--ticket);border:1px solid var(--rule);border-radius:10px;padding:18px;min-width:0}
+.qh{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.qh h2{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.2;max-width:36ch}
+.badge{font-family:var(--mono);font-size:11.5px;padding:4px 9px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+textarea{width:100%;min-height:200px;resize:vertical;font-family:var(--mono);font-size:13px;line-height:1.6;padding:14px;border:1px solid var(--rule);border-radius:8px;background:var(--code);color:var(--ink);tab-size:2;margin-top:12px}
+textarea:focus-visible{outline:2px solid var(--noren);outline-offset:1px}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.btn{all:unset;cursor:pointer;font-weight:700;font-size:14px;padding:9px 16px;border-radius:8px;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--noren);border-color:var(--noren);color:var(--noren-ink)}
+.btn:focus-visible{outline:2px solid var(--noren);outline-offset:2px}
+.hint{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.result{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:16px;align-items:start}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+td{font-family:var(--mono);font-size:13px}
+.err{font-family:var(--mono);font-size:12.5px;color:var(--noren);white-space:pre-wrap}
+.notes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.note{border-radius:8px;padding:12px 14px;font-size:14px}
+.note .eyebrow{margin-bottom:4px}
+.note.insight{background:var(--code)}
+.note.fix{border:1.5px dashed var(--warn)}
+.note.fix .eyebrow{color:var(--warn)}
+svg{display:block;max-width:100%}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--ink-2)}
+footer{color:var(--muted);font-size:12.5px;max-width:95ch}
+footer a{color:var(--ink-2)}
+@media (max-width:980px){.bench{grid-template-columns:minmax(0,1fr)}.menu{position:static}.head{grid-template-columns:minmax(0,1fr)}.result,.notes{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.schema{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats>div:nth-child(2){border-right:0}.stats>div:nth-child(-n+2){border-bottom:1.5px dashed var(--rule)}}
+</style>
+
+<style>
+.sitebar{--sb-bg:#ffffff;--sb-fg:#15171b;--sb-mu:#5d636b;--sb-line:#dcdfd8;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--sb-bg);border-bottom:1px solid var(--sb-line);font-family:"Public Sans",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sitebar{--sb-bg:#171a1f;--sb-fg:#eceef0;--sb-mu:#9aa1aa;--sb-line:#2a2e35}}
+:root[data-theme="dark"] .sitebar{--sb-bg:#171a1f;--sb-fg:#eceef0;--sb-mu:#9aa1aa;--sb-line:#2a2e35}
+.sitebar .in{max-width:1280px;margin:0 auto;padding:8px clamp(16px,3vw,32px);display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px}
+.sitebar a{color:var(--sb-mu);text-decoration:none}
+.sitebar a:hover{color:var(--sb-fg)}
+.sitebar .who{display:flex;align-items:center;gap:8px;color:var(--sb-fg);font-weight:600}
+.sitebar .who b{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--sb-fg);color:var(--sb-bg);font-size:9.5px}
+.sitebar .sp{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+.filters{top:calc(env(safe-area-inset-top,0px) + 43px)!important}
+</style>
+<div class="sitebar"><div class="in">
+  <a class="who" href="../../index.html"><b>QAB</b>Qais Adeniji-Bello</a>
+  <a href="../index.html">← Data Analytics</a>
+  <span class="sp"><a href="https://github.com/QaisBello/dannys-diner-sql" target="_blank" rel="noopener">Code &amp; data on GitHub</a><a href="../../about/index.html">About</a></span>
+</div></div>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="noren" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="eyebrow">SQL case study · 8 Week SQL Challenge #1</div>
+      <h1>Danny's Diner</h1>
+      <p class="lede">Ten business questions about a small Japanese diner, answered in SQL that <b>runs in your browser</b>. Pick a question, read the query, edit it and run it against the real tables.</p>
+      <div class="src" id="src"><span class="dot"></span>Loading database…</div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <section aria-label="Schema">
+    <div class="schema" id="schema"></div>
+    <div class="rel" style="margin-top:8px"><span>sales.product_id → menu.product_id</span><span>sales.customer_id → members.customer_id (members only)</span><span>Click a table to preview it</span></div>
+  </section>
+
+  <section class="bench">
+    <nav class="menu" aria-label="Questions"><div class="mh">Questions</div><div id="qlist"></div></nav>
+    <div class="main">
+      <article class="card">
+        <div class="qh"><div><div class="eyebrow" id="q-num">Question</div><h2 id="q-title">–</h2></div><span class="badge" id="q-badge">–</span></div>
+        <label for="sql" class="eyebrow" style="display:block;margin-top:12px">Query (editable)</label>
+        <textarea id="sql" spellcheck="false" aria-label="SQL query"></textarea>
+        <div class="actions"><button class="btn primary" type="button" id="run">Run query</button><button class="btn" type="button" id="reset">Reset</button><span class="hint">Ctrl/⌘ + Enter to run</span></div>
+      </article>
+      <article class="card">
+        <div class="eyebrow" style="margin-bottom:8px" id="r-meta">Result</div>
+        <div class="result"><div class="tablewrap" id="r-table"></div><div id="r-chart"></div></div>
+      </article>
+      <div class="notes" id="notes"></div>
+    </div>
+  </section>
+  <footer>Case study and data by Danny Ma, <a href="https://8weeksqlchallenge.com/case-study-1/" target="_blank" rel="noopener">8 Week SQL Challenge</a>. Queries, checks and this playground by Qais Adeniji-Bello. SQLite runs locally in your browser via sql.js; nothing is sent anywhere.</footer>
+</div>
+
+<script>
+const SOURCE={repo:"QaisBello/dannys-diner-sql",branch:"main"};
+const FALLBACKS=["data/"];
+const RAW=f=>`https://raw.githubusercontent.com/${SOURCE.repo}/${SOURCE.branch}/${f}`;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let DB=null, INDEX=[], SQL_TEXT={}, EXPECTED={}, cur=0, mode="live";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function get(path,asJson){
+  for(const [u,k] of [[RAW(path),"live"],...FALLBACKS.map(f=>[f+path,"snapshot"])]){
+    try{const r=await fetch(u,{cache:"no-store"}); if(!r.ok)throw 0; const t=await r.text(); if(k!=="live")mode="snapshot"; return asJson?JSON.parse(t):t;}catch(e){}
+  }
+  throw new Error("Couldn't load "+path);
+}
+function exec(sql){ const res=DB.exec(sql); return res.length?res[res.length-1]:{columns:[],values:[]}; }
+
+function renderStats(){
+  const one=q=>exec(q).values[0][0];
+  const S=[[one("SELECT COUNT(*) FROM sales"),"orders"],[one("SELECT COUNT(DISTINCT customer_id) FROM sales"),"customers"],[one("SELECT COUNT(*) FROM members"),"loyalty members"],[`$${one("SELECT SUM(price) FROM sales JOIN menu USING(product_id)")}`,"revenue"]];
+  document.getElementById("stats").innerHTML=S.map(([v,k])=>`<div><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+}
+function renderSchema(){
+  const tables=[["sales",["customer_id","order_date","product_id"],{product_id:"FK"}],["menu",["product_id","product_name","price"],{product_id:"PK"}],["members",["customer_id","join_date"],{customer_id:"PK"}]];
+  const host=document.getElementById("schema");
+  host.innerHTML=tables.map(([t,cols,keys])=>{const n=exec(`SELECT COUNT(*) FROM ${t}`).values[0][0];
+    return `<button class="tbl" type="button" data-t="${t}" aria-pressed="false"><div class="t"><span>${t}</span><span>${n} rows</span></div><ul>${cols.map(c=>`<li><b>${c}</b><span class="key">${keys[c]||""}</span></li>`).join("")}</ul></button>`;}).join("");
+  host.querySelectorAll(".tbl").forEach(b=>b.onclick=()=>{host.querySelectorAll(".tbl").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");
+    document.getElementById("sql").value=`SELECT * FROM ${b.dataset.t};`; run(true);
+    document.getElementById("q-title").textContent=`Preview: ${b.dataset.t}`; document.getElementById("q-num").textContent="Table"; document.getElementById("q-badge").textContent="preview"; document.getElementById("q-badge").style.color=css("--muted");
+    document.querySelectorAll(".q").forEach(q=>q.setAttribute("aria-current","false")); document.getElementById("notes").innerHTML="";});
+}
+function renderList(){
+  document.getElementById("qlist").innerHTML=INDEX.map((q,i)=>`<button class="q" type="button" data-i="${i}" aria-current="${i===cur}"><span class="n">${q.id.startsWith("b")?"B"+q.id.slice(1):"Q"+(+q.id.slice(1))}</span><span>${esc(q.question)}</span><span class="s" id="s-${q.id}"></span></button>`).join("")+
+    `<button class="q" type="button" data-i="free"><span class="n">+</span><span>Write your own query</span><span></span></button>`;
+  document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{ if(b.dataset.i==="free"){free();return;} select(+b.dataset.i); });
+  // pre-check every answer
+  INDEX.forEach(q=>{ if(!EXPECTED[q.id])return; try{ const r=exec(SQL_TEXT[q.id]); document.getElementById("s-"+q.id).innerHTML=same(r.values,EXPECTED[q.id])?'<span class="ok">✓</span>':"✕"; }catch(e){} });
+}
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function select(i){
+  cur=i; const q=INDEX[i];
+  document.querySelectorAll(".q").forEach(b=>b.setAttribute("aria-current",String(b.dataset.i==String(i))));
+  document.querySelectorAll(".tbl").forEach(x=>x.setAttribute("aria-pressed","false"));
+  document.getElementById("q-num").textContent=q.id.startsWith("b")?"Bonus question":`Question ${+q.id.slice(1)}`;
+  document.getElementById("q-title").textContent=q.question;
+  document.getElementById("sql").value=SQL_TEXT[q.id].replace(/^--.*\n/,"");
+  document.getElementById("notes").innerHTML=`<div class="note insight"><div class="eyebrow">What it tells Danny</div>${esc(q.insight)}</div>`+
+    (q.v1_issue?`<div class="note fix"><div class="eyebrow">Fixed from my first version</div>${esc(q.v1_issue)}</div>`:"");
+  run();
+}
+function free(){
+  cur=-1; document.querySelectorAll(".q").forEach(b=>b.setAttribute("aria-current",String(b.dataset.i==="free")));
+  document.getElementById("q-num").textContent="Sandbox"; document.getElementById("q-title").textContent="Write your own query";
+  document.getElementById("sql").value="-- Try anything: which day of the week is busiest?\nSELECT strftime('%w', order_date) AS weekday, COUNT(*) AS orders\nFROM sales\nGROUP BY weekday\nORDER BY orders DESC;";
+  document.getElementById("notes").innerHTML=`<div class="note insight"><div class="eyebrow">Tables</div>sales(customer_id, order_date, product_id) · menu(product_id, product_name, price) · members(customer_id, join_date)</div>`;
+  run(true);
+}
+function run(noCheck){
+  const sql=document.getElementById("sql").value, T=document.getElementById("r-table"), C=document.getElementById("r-chart"), badge=document.getElementById("q-badge"), meta=document.getElementById("r-meta");
+  C.innerHTML="";
+  try{
+    const t0=performance.now(); const r=exec(sql); const ms=(performance.now()-t0).toFixed(1);
+    meta.textContent=`Result · ${r.values.length} row${r.values.length===1?"":"s"} · ${ms} ms`;
+    T.innerHTML=r.columns.length?`<table><thead><tr>${r.columns.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${r.values.map(v=>`<tr>${v.map(x=>`<td>${x===null?'<span style="color:var(--muted)">NULL</span>':esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>`:'<p class="hint">Statement ran; no rows returned.</p>';
+    if(!noCheck&&cur>=0){ const q=INDEX[cur]; if(EXPECTED[q.id]){ const ok=same(r.values,EXPECTED[q.id]); badge.textContent=ok?"✓ matches the known answer":"✕ differs from the known answer"; badge.style.color=ok?css("--ok"):css("--noren"); } else { badge.textContent="bonus · no single answer"; badge.style.color=css("--muted"); } }
+    else if(cur<0){ badge.textContent="sandbox"; badge.style.color=css("--muted"); }
+    chart(r);
+  }catch(e){ T.innerHTML=`<div class="err">${esc(e.message)}</div>`; meta.textContent="Result · error"; badge.textContent="✕ error"; badge.style.color=css("--noren"); }
+}
+function chart(r){
+  if(!r.values.length||r.values.length>12) return;
+  const ni=r.columns.findIndex((c,i)=>r.values.every(v=>typeof v[i]==="number")), li=r.columns.findIndex((c,i)=>i!==ni&&r.values.every(v=>typeof v[i]==="string"));
+  if(ni<0||li<0) return;
+  const lab=v=>r.columns.length>2?v.filter((x,i)=>i!==ni&&typeof x==="string").join(" · "):v[li];
+  const data=r.values.map(v=>({k:lab(v),v:v[ni]}));
+  const host=document.getElementById("r-chart"), W=Math.max(host.clientWidth,240), rowH=30, lw=Math.min(140,W*.42), H=data.length*rowH+24;
+  const x=d3.scaleLinear().domain([0,d3.max(data,d=>d.v)||1]).range([0,W-lw-56]);
+  const svg=d3.select(host).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width",W).attr("height",H).attr("role","img").attr("aria-label",`Bar chart of ${r.columns[ni]}`);
+  svg.append("text").attr("x",lw).attr("y",12).style("fill",css("--muted")).text(r.columns[ni].toUpperCase());
+  const g=svg.selectAll("g").data(data).join("g").attr("transform",(d,i)=>`translate(0,${20+i*rowH})`);
+  g.append("text").attr("x",lw-8).attr("y",rowH/2).attr("dy",".35em").attr("text-anchor","end").style("fill",css("--ink")).text(d=>d.k);
+  g.append("rect").attr("x",lw).attr("y",7).attr("height",rowH-14).attr("rx",3).attr("width",d=>Math.max(2,x(d.v))).attr("fill",css("--bar"));
+  g.append("text").attr("x",d=>lw+Math.max(2,x(d.v))+6).attr("y",rowH/2).attr("dy",".35em").text(d=>d3.format(",")(d.v));
+}
+
+async function boot(){
+  const src=document.getElementById("src");
+  try{
+    const [SQLmod, schema, index, expected]=await Promise.all([initSqlJs(), get("sql/schema.sql"), get("sql/index.json",true), get("answers/expected.json",true)]);
+    DB=new SQLmod.Database(); DB.run(schema); INDEX=index; EXPECTED=expected;
+    await Promise.all(INDEX.map(async q=>{SQL_TEXT[q.id]=await get("sql/"+q.file);}));
+    src.innerHTML=mode==="live"?`<span class="dot live"></span>Schema and queries live from <a href="https://github.com/${SOURCE.repo}/tree/${SOURCE.branch}/sql" target="_blank" rel="noopener">github.com/${SOURCE.repo}</a> · SQLite in your browser`:`<span class="dot"></span>Bundled copy · SQLite in your browser`;
+    renderStats(); renderSchema(); renderList(); select(0);
+  }catch(e){ src.innerHTML=`<span class="dot" style="background:var(--noren)"></span>${esc(e.message)}. Refresh to try again.`; }
+}
+document.getElementById("run").onclick=()=>run();
+document.getElementById("reset").onclick=()=>cur>=0?select(cur):free();
+document.getElementById("sql").addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();run();} });
+boot();
+</script>
+
+</body>
+</html>

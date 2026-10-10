@@ -1,0 +1,7 @@
+check,rows_affected,finding,action
+Load,294478,"294,478 page-view rows, 290,584 unique users, 02 Jan to 24 Jan 2017.",Parsed timestamps.
+Group vs page shown,3893,"3,893 rows show the wrong page for their group (control users seeing the new page or the reverse). We can't tell which exposure the user actually experienced.",Removed. Keeping them would blur the comparison.
+Duplicate users,1,1 user still appears twice after the mismatch filter.,Kept the later row.
+Country join,0,"Every remaining user has a country (US, UK or CA).",Joined countries.csv on user_id.
+Sample ratio,0,"Control 145,274 vs treatment 145,310 users; chi-square p = 0.95. The 50/50 split held.",No action needed.
+Partial first and last days,5712,"The test starts at 13:42 on 2017-01-02 and ends at 13:41 on 2017-01-24, so those two days are half-days.",Kept. They only shift the first and last daily points; the cumulative result is unaffected.

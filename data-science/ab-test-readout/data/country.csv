@@ -1,0 +1,7 @@
+country,group,users,conversions
+CA,control,7198,855
+CA,treatment,7301,817
+UK,control,36360,4364
+UK,treatment,36106,4375
+US,control,101716,12270
+US,treatment,101903,12072

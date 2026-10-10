@@ -1,0 +1,86 @@
+[
+  {
+    "id": "q01",
+    "question": "What is the total amount each customer spent?",
+    "file": "q01.sql",
+    "insight": "A spent the most ($76), but C only ever orders ramen.",
+    "v1_issue": ""
+  },
+  {
+    "id": "q02",
+    "question": "How many days has each customer visited?",
+    "file": "q02.sql",
+    "insight": "B visits most often (6 days) even though A spends more per visit.",
+    "v1_issue": "v1 used COUNT(order_date), which counts orders, not days: it reported 6 visits for A instead of 4."
+  },
+  {
+    "id": "q03",
+    "question": "What was the first item each customer bought?",
+    "file": "q03.sql",
+    "insight": "A ordered two dishes on day one; a query that keeps only one row would hide that.",
+    "v1_issue": "v1 used ROW_NUMBER(), which picks one arbitrary row when items share the first date, so A's curry was dropped."
+  },
+  {
+    "id": "q04",
+    "question": "What is the most purchased item, and how many times was it bought?",
+    "file": "q04.sql",
+    "insight": "Ramen is the clear favourite: 8 of 15 orders.",
+    "v1_issue": "v1 used SQL Server's TOP 1 while the rest of the script was MySQL, so it couldn't run end to end."
+  },
+  {
+    "id": "q05",
+    "question": "Which item was most popular for each customer?",
+    "file": "q05.sql",
+    "insight": "B has no single favourite: a three-way tie, two orders each.",
+    "v1_issue": "v1 used ROW_NUMBER(), so B's three-way tie collapsed to one arbitrary item."
+  },
+  {
+    "id": "q06",
+    "question": "Which item did each member buy first after joining?",
+    "file": "q06.sql",
+    "insight": "A ordered curry on the day they joined; B's first member order was sushi.",
+    "v1_issue": "v1 used > join_date, which skips A's join-day order. Whether the join day counts is a business rule worth stating explicitly."
+  },
+  {
+    "id": "q07",
+    "question": "Which item did each member buy just before joining?",
+    "file": "q07.sql",
+    "insight": "Both members' last pre-join orders included sushi; it may be what converted them.",
+    "v1_issue": "v1 used ROW_NUMBER(), so A's two last-day items (sushi and curry) became one."
+  },
+  {
+    "id": "q08",
+    "question": "How many items, and how much, did each member spend before joining?",
+    "file": "q08.sql",
+    "insight": "B spent more than A before joining ($40 vs $25).",
+    "v1_issue": ""
+  },
+  {
+    "id": "q09",
+    "question": "With $1 = 10 points and 2x points on sushi, how many points does each customer have?",
+    "file": "q09.sql",
+    "insight": "B leads on points (940) because of sushi, despite spending less than A.",
+    "v1_issue": ""
+  },
+  {
+    "id": "q10",
+    "question": "With 2x points on everything in a member's first week, how many points do A and B have at the end of January?",
+    "file": "q10.sql",
+    "insight": "The first-week bonus pushes A (1,370) well past B (820).",
+    "v1_issue": "v1 doubled the price but dropped the \u00d710 points and the sushi rule outside the bonus week, so its totals were in dollars, not points. It also used SQL Server's DATEADD."
+  },
+  {
+    "id": "b1",
+    "question": "Bonus: join everything into one table with a member flag.",
+    "file": "b1.sql",
+    "insight": "A tidy, analysis-ready view that Danny's team could use without writing joins.",
+    "v1_issue": ""
+  },
+  {
+    "id": "b2",
+    "question": "Bonus: rank each member's purchases (non-members get NULL).",
+    "file": "b2.sql",
+    "insight": "Ranks only count member orders, which is what a loyalty programme needs.",
+    "v1_issue": ""
+  }
+]

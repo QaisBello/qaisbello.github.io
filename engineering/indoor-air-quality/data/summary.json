@@ -1,0 +1,118 @@
+{
+ "study": {
+  "room": "Engineering Lecture Theatre, University of Lagos",
+  "seats": 206,
+  "days": 5,
+  "sessions": 10,
+  "dates": "13\u201319 Dec 2023",
+  "minutes": 1772,
+  "monitor_minutes": 5076
+ },
+ "headline": {
+  "co2_mean": 1562,
+  "co2_max": 3565,
+  "co2_max_ts": "2023-12-14 10:22:00",
+  "co2_max_monitors": 1,
+  "co2_max_all3": 3043,
+  "co2_max_all3_ts": "2023-12-18 16:51:00",
+  "single_monitor_minutes": 73,
+  "share_over_1000": 0.752,
+  "share_over_2000": 0.232,
+  "pm25_mean": 39.1,
+  "pm25_share_over_who": 1.0,
+  "pm10_mean": 75.7,
+  "out_pm25_mean": 52.1,
+  "io_pm25_median": 0.76,
+  "corr_pm25_in_out": 0.81,
+  "hcho_max_1min": 0.099,
+  "hcho_max_30min": 0.058,
+  "outdoor_co2_mean": 509
+ },
+ "ventilation": {
+  "co2_generation_lps": 0.0046,
+  "ach_median": 1.18,
+  "ach_range": [
+   0.88,
+   1.61
+  ],
+  "decays_used": 4,
+  "ls_per_person_at_peak": [
+   1.59,
+   1.91,
+   1.97,
+   3.01
+  ],
+  "ls_per_person_to_hold_1000": 9.4
+ },
+ "monitors": {
+  "clock_offset_min": {
+   "B": 16,
+   "C": 3
+  },
+  "agreement": {
+   "co2": {
+    "B": {
+     "median_diff_pct": 6.1,
+     "r": 0.951
+    },
+    "C": {
+     "median_diff_pct": -15.4,
+     "r": 0.972
+    }
+   },
+   "pm25": {
+    "B": {
+     "median_diff_pct": 0.0,
+     "r": 0.906
+    },
+    "C": {
+     "median_diff_pct": 4.8,
+     "r": 0.898
+    }
+   },
+   "pm10": {
+    "B": {
+     "median_diff_pct": -1.0,
+     "r": 0.834
+    },
+    "C": {
+     "median_diff_pct": 3.9,
+     "r": 0.852
+    }
+   },
+   "hcho": {
+    "B": {
+     "median_diff_pct": -17.9,
+     "r": 0.826
+    },
+    "C": {
+     "median_diff_pct": -8.0,
+     "r": 0.792
+    }
+   }
+  },
+  "agreement_minutes": 1605
+ },
+ "workbook": {
+  "sessions_with_misplaced_columns": 5,
+  "zero_cells": 6,
+  "old_readme": {
+   "co2_mean": 1490.78,
+   "co2_peak": 3019,
+   "pm25_mean": 39.25
+  },
+  "reproduced": {
+   "co2_mean": 1490.77,
+   "co2_max": 3049,
+   "pm25_mean": 39.25
+  }
+ },
+ "quality": {
+  "warmup_dropped": 117
+ },
+ "who": {
+  "pm25_24h": 15,
+  "pm10_24h": 45,
+  "hcho_30min": 0.1
+ }
+}
