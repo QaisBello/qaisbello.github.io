@@ -77,11 +77,12 @@ window.TRACKS = [
     coming: ["An in-browser beam solver (slope-deflection method) with live shear and moment diagrams", "Estimating and takeoff helpers", "Small calculators that check the maths behind a design"] }
 ];
 
+/* tracks: every category the project fits. The first is its home (where its page lives);
+   it also appears on the other tracks' pages, and every card shows all of them as tags. */
 window.PROJECTS = [
   {
     slug: "lifeblood-ledger",
-    track: "data-analytics",
-    also: ["health-data"],
+    tracks: ["data-analytics", "health-data"],
     status: "live",
     title: "Lifeblood Ledger",
     client: "One Health Lifesavers",
@@ -103,7 +104,7 @@ window.PROJECTS = [
   },
   {
     slug: "adidas-sales",
-    track: "data-analytics",
+    tracks: ["data-analytics"],
     status: "live",
     title: "The 10× Ledger",
     client: "Adidas US sales dataset",
@@ -120,7 +121,7 @@ window.PROJECTS = [
   },
   {
     slug: "world-cup",
-    track: "data-analytics",
+    tracks: ["data-analytics"],
     status: "live",
     title: "World Cup, by the minute",
     client: "Open data · 1930–2022",
@@ -139,7 +140,7 @@ window.PROJECTS = [
   },
   {
     slug: "dannys-diner",
-    track: "data-analytics",
+    tracks: ["data-analytics"],
     status: "live",
     title: "Danny's Diner SQL",
     client: "SQL case study",
@@ -159,7 +160,7 @@ window.PROJECTS = [
   },
   {
     slug: "ab-test-readout",
-    track: "data-science",
+    tracks: ["data-science", "data-analytics"],
     status: "live",
     title: "Ship the new page? No.",
     client: "A/B test · 290,584 users",
@@ -178,7 +179,7 @@ window.PROJECTS = [
   },
   {
     slug: "beam-lab",
-    track: "engineering",
+    tracks: ["engineering"],
     status: "live",
     title: "Beam Lab",
     client: "Structural analysis tool",
@@ -198,7 +199,7 @@ window.PROJECTS = [
   },
   {
     slug: "lifeblood-pipeline",
-    track: "data-engineering",
+    tracks: ["data-engineering", "health-data"],
     status: "live",
     title: "Lifeblood Pipeline",
     client: "One Health Lifesavers",
@@ -217,8 +218,7 @@ window.PROJECTS = [
   },
   {
     slug: "indoor-air-quality",
-    track: "engineering",
-    also: ["health-data"],
+    tracks: ["engineering", "health-data", "data-analytics"],
     status: "live",
     title: "Breathing Room",
     client: "Building performance field study",
@@ -237,7 +237,7 @@ window.PROJECTS = [
   },
   {
     slug: "ae-spc",
-    track: "health-data",
+    tracks: ["health-data", "data-analytics"],
     status: "live",
     title: "A&E, read with SPC",
     client: "NHS England A&E statistics (public data)",
@@ -256,7 +256,7 @@ window.PROJECTS = [
   },
   {
     slug: "patient-flow-sql",
-    track: "health-data",
+    tracks: ["health-data", "data-analytics"],
     status: "live",
     title: "Patient flow, in SQL",
     client: "NHS-style hospital extract (synthetic)",

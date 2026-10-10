@@ -11,7 +11,13 @@
     sset(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
 
-  const inTrack = (p, id) => p.track === id || (p.also || []).includes(id);
+  // a project can sit in several categories: tracks[0] is its home, the rest are cross-listings
+  const tracksOf = p => p.tracks || [p.track, ...(p.also || [])].filter(Boolean);
+  const home = p => tracksOf(p)[0];
+  const inTrack = (p, id) => tracksOf(p).includes(id);
+  const TNAME = Object.fromEntries((window.TRACKS || []).map(t => [t.id, t]));
+  const trackTags = (p, current) => `<div class="track-tags">${tracksOf(p).map(id => TNAME[id]
+    ? `<a class="ttag${id === current ? " here" : ""}" href="${ROOT}${TNAME[id].path}" style="--tc:var(--t-${id})">${esc(TNAME[id].name)}</a>` : "").join("")}</div>`;
   /* ---------- glyphs */
   const GLYPH = {
     bars: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V11M10 20V5M16 20v-7M22 20H2"/></svg>',
@@ -99,6 +105,7 @@
         <div class="body">
           <div class="client">${p.clientLogo ? `<img src="${ROOT}${p.clientLogo}" alt="${esc(p.client)}">` : ""}<span class="chip live" data-src="${p.slug}">Live from GitHub</span></div>
           <h3>${esc(p.title)}</h3>
+          ${trackTags(p)}
           <p class="quote">${esc(p.headline).replace(/(\d+%)/, "<em>$1</em>")}</p>
           <p class="sum">${esc(p.summary)}</p>
           <div class="stats">${p.highlights.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("")}</div>
@@ -112,12 +119,13 @@
   const gal = $("#gallery");
   if (gal) {
     const track = gal.dataset.track;
-    const ps = PROJECTS.filter(p => p.track === track).concat(PROJECTS.filter(p => p.track !== track && inTrack(p, track)));
+    const ps = PROJECTS.filter(p => home(p) === track).concat(PROJECTS.filter(p => home(p) !== track && inTrack(p, track)));
     gal.innerHTML = ps.map(p => `<article class="card">
         <a class="shot" href="${ROOT}${p.page}" aria-label="Open ${esc(p.title)}">${shot(p)}</a>
         <div class="body">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip live" data-src="${p.slug}">Live from GitHub</span><span class="chip">${esc(p.client)}</span></div>
           <h3>${esc(p.title)}</h3>
+          ${trackTags(p, track)}
           <p>${esc(p.summary)}</p>
           <div class="meta-line"><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span><span>data updated: <span data-date="${p.slug}">…</span></span></div>
           <div class="tags">${p.stack.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</div>

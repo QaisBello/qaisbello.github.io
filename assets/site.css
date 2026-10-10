@@ -195,3 +195,10 @@ footer a{color:var(--muted)}
 
 #certs td{white-space:normal}
 #certs td:last-child{white-space:nowrap}
+
+/* category tags: a project can belong to several tracks */
+.track-tags{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px}
+.ttag{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid color-mix(in srgb,var(--tc) 40%,var(--line));color:var(--ink);text-decoration:none;background:color-mix(in srgb,var(--tc) 7%,transparent)}
+.ttag::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--tc)}
+.ttag:hover{border-color:var(--tc)}
+.ttag.here{font-weight:600;border-color:var(--tc)}
