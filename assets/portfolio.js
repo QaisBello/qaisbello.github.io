@@ -7,27 +7,27 @@
 window.PROFILE = {
   name: "Qais Adeniji-Bello",
   headline: "Data & AI · Area Manager (Nigeria) at Guthrie AI",
-  location: "Lagos, Nigeria",
+  location: "Yaba, Lagos, Nigeria",
   about: [
     "I work across the data stack: analytics, data science, data engineering and AI. Over 5 years across fintech and product environments, I've focused on turning complex data into clear, actionable insights, and on building the pipelines and tools that keep that data trustworthy.",
     "I currently work at Guthrie AI in a hybrid role spanning data, Glass and Glazing estimating, and Regional Area Management, where I combine data work with operational leadership. I manage detailed RFPs, interpret technical drawings, and deliver accurate cost estimates while also overseeing regional operations, improving data integrity, and aligning reporting across teams.",
     "My estimator experience has strengthened my attention to detail, commercial awareness, and ability to make data-backed decisions under tight deadlines. As a Regional Area Manager, I've led initiatives to standardize metrics, improve workflow efficiency, and bridge the gap between technical teams and business stakeholders."
   ],
   experience: [
-    { role: "Area Manager (Nigeria)", org: "Guthrie AI", dates: "Sep 2025 – Present", note: "Lead the Nigerian team, which grew from one person to fifteen. Standardise metrics and reporting across teams and keep regional operations running." },
-    { role: "Outsourced Estimator (Glass and Glazing)", org: "Guthrie AI", dates: "Feb 2025 – Present", note: "Read technical drawings and specifications, manage detailed RFPs and produce accurate cost estimates under tight deadlines." },
-    { role: "Volunteer Data Analyst", org: "One Health Lifesavers", dates: "Aug 2023 – Present", note: "Provide data analysis for blood donation drives run by medical students, and streamline how donors and successful donations are tracked." },
-    { role: "Data Analyst", org: "PayVantage", dates: "Sep 2022 – Feb 2024", note: "" },
-    { role: "ESG Analyst Intern", org: "Marble Capital Limited", dates: "Mar 2022 – Sep 2022", note: "" },
+    { role: "Area Manager (Nigeria)", org: "Guthrie AI (remote, Philadelphia)", dates: "Sep 2025 – Present", note: "Recruited and onboarded 5 estimators in 4 weeks, cutting onboarding time by 30%. Streamlined admin so estimators focus on core work (+20% team efficiency), and act as the main liaison between global teams and the Nigerian unit, cutting response time by 40%." },
+    { role: "Data Analyst / Glass & Glazing Estimator", org: "Guthrie AI (remote, Philadelphia)", dates: "Feb 2025 – Present", note: "Built semantic data models for job status, credit usage and estimator performance (+25% operational efficiency), and automated dashboards and pipelines supporting 150+ RFPs (40% less manual work). Drafted 100+ RFQs and take-offs for 50+ projects, contributing to a 15% rise in bid win rate." },
+    { role: "Data Analyst", org: "PayVantage Limited", dates: "Sep 2022 – Feb 2025", note: "Built and maintained 7 real-time pipelines in Snowflake and dbt (+25% processing efficiency) and data models for user-behaviour and monetisation analytics. Analysed 500K+ data points in Python and SQL, with insights that lifted user engagement by 12%, and defined metrics for fraud-detection dashboards." },
+    { role: "Volunteer Data Analyst", org: "One Health Lifesavers", dates: "Aug 2023 – Present", note: "Data analysis for blood donation drives run by medical students: streamlining how donors and successful donations are tracked, and supporting data-driven decisions on donor engagement." },
+    { role: "ESG Analyst Intern", org: "Marble Capital Limited", dates: "Mar 2022 – Sep 2022", note: "Analysed 30+ sustainability initiatives and ESG metrics for 25+ investments; automated monthly ESG reporting in Python (90% fewer manual errors) and payroll processing for 40+ staff in VBA (50% faster)." },
     { role: "Monitoring Officer (Intern)", org: "Lagos State Building Control Agency, Yaba", dates: "Nov 2019 – Feb 2020", note: "Investigated root causes of reported building issues and prepared weekly summary reports for field management." },
-    { role: "Construction Site Supervisor", org: "Mc Ahad Shelters", dates: "Jul 2016 – Nov 2019", note: "Managed 20+ workers across three housing developments and ran safety and HSE procedures on site." }
+    { role: "Construction Site Supervisor Intern", org: "Mc Ahad Shelters", dates: "Jul 2016 – Nov 2019", note: "Supervised 20+ workers on 3 large housing projects; implemented 15+ safety and HSE procedures with zero incidents." }
   ],
   volunteering: [
-    { role: "Head of Registration", org: "Guild of Muslim Professionals", dates: "Dec 2019 – Present", note: "Promoted in 2023; improved participant sign-up efficiency by 20%." },
-    { role: "Protocol and Logistics Volunteer", org: "11th All Africa University Games", dates: "Sep 2024", note: "Procurement, protocol and on-site coordination." }
+    { role: "Head of Registration", org: "Guild of Muslim Professionals", dates: "Dec 2019 – Present", note: "Started as a volunteer in research and customer service; promoted in 2023 to run event registrations, improving sign-up efficiency by 20%." },
+    { role: "Protocol and Logistics Volunteer (Special Squad)", org: "11th All Africa University Games", dates: "Sep 2024", note: "Managed protocol and logistics, from procurement to on-site coordination, and kept communication flowing between key stakeholders." }
   ],
   education: [
-    { role: "B.Sc. Building Construction Technology", org: "University of Lagos", dates: "2017 – 2024" }
+    { role: "B.Sc. Building", org: "University of Lagos", dates: "Jan 2017 – Nov 2024" }
   ],
   certifications: [
     ["Google Business Intelligence", "Coursera", "Apr 2023"],
@@ -42,11 +42,12 @@ window.PROFILE = {
     ["Revu Essentials + 4 takeoff and measurement courses", "Bluebeam", "2025"]
   ],
   skills: {
-    "Analysis": ["Python", "R / RStudio", "SQL", "MySQL", "PostgreSQL", "Google BigQuery", "Excel", "IBM SPSS", "Exploratory & statistical analysis"],
-    "BI & visualisation": ["Power BI", "Tableau", "D3.js", "Data visualisation", "Reporting"],
-    "Cloud & tools": ["AWS S3", "Salesforce", "Google Sheets"],
-    "Construction & estimating": ["Bluebeam Revu", "AutoCAD", "Revit", "SketchUp", "Cost estimating"],
-    "Leadership": ["People management", "Team leadership", "Project management", "Stakeholder communication"]
+    "Data & analysis": ["SQL", "RDBMS", "Python", "R", "SPSS", "Data cleaning", "Data manipulation", "Data extraction", "A/B testing", "Statistical modelling", "Predictive analytics"],
+    "Data engineering": ["Snowflake", "dbt", "Databricks", "BigQuery", "Hightouch", "Data modelling", "Data warehousing", "Microsoft Azure"],
+    "BI & visualisation": ["Power BI", "Tableau", "Looker", "Google Analytics", "Excel", "D3.js", "Data storytelling"],
+    "Construction & estimating": ["AutoCAD", "Revit", "Logikal", "Bluebeam", "Cost estimating"],
+    "Business tools": ["Salesforce", "SharePoint", "Microsoft Power Automate", "Project management"],
+    "Leadership": ["Communication", "People management", "Collaboration", "Decision making", "Problem-solving"]
   },
   links: {
     linkedin: "https://www.linkedin.com/in/qais-adeniji-bello/",
@@ -89,7 +90,7 @@ window.PROJECTS = [
       ["49% vs 6%", "women vs men deferred"]
     ],
     page: "data-analytics/lifeblood-ledger/index.html",
-    repo: "QaisBello/lifeblood-ledger",
+    repo: "QaisBello/One-health-life-savers-blood-ledger",
     branch: "main",
     dataFile: "data/cleaned/fact_responses.csv",
     image: { dark: "assets/img/lifeblood-dark.jpg", light: "assets/img/lifeblood-light.jpg" },
@@ -201,7 +202,7 @@ window.PROJECTS = [
     headline: "Messy exports in, tested tables out.",
     highlights: [["6", "stages"], ["6", "quality gates"], ["0", "PII published"]],
     page: "data-engineering/lifeblood-pipeline/index.html",
-    repo: "QaisBello/lifeblood-pipeline",
+    repo: "QaisBello/One-health-life-savers-blood-ledger-elt",
     branch: "main",
     dataFile: "data/published/fact_responses.csv",
     rowsLabel: "published rows",
