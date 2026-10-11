@@ -217,6 +217,26 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
+    slug: "olist-powerbi",
+    tracks: ["data-analytics", "data-engineering"],
+    status: "live",
+    title: "Late parcels, in Power BI",
+    client: "Olist Brazilian e-commerce (public data)",
+    summary: "The Olist warehouse as a Power BI semantic model: a star schema, 18 DAX measures and a two-page report, all written as code (TMDL and PBIR), generated from one spec and checked against Microsoft's schemas on every push.",
+    headline: "18 DAX measures, every one tested against pandas.",
+    highlights: [["18", "DAX measures"], ["15", "visuals on 2 pages"], ["2.02", "stars lost to a late parcel"]],
+    page: "data-analytics/olist-powerbi/index.html",
+    repo: "QaisBello/olist-powerbi",
+    branch: "main",
+    dataFile: "web/data/model.json",
+    rowsLabel: "measures",
+    rows: 18,
+    image: { dark: "assets/img/olist-pbi-dark.jpg", light: "assets/img/olist-pbi-light.jpg" },
+    stack: ["Power BI", "DAX", "Power Query", "TMDL", "Python", "GitHub Actions"],
+    cta: "Open the report",
+    date: "2026-10"
+  },
+  {
     slug: "olist-warehouse",
     tracks: ["data-engineering", "data-analytics"],
     status: "live",
