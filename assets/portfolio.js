@@ -82,7 +82,8 @@ window.TRACKS = [
    tracks: every category the project fits. The first is its home (where its page lives);
    it also appears on the other tracks' pages, and every card shows all of them as tags. */
 /* Skills matrix (home and About pages): one column per tool. A project ticks a tool when any of `match`
-   appears in its stack, or the tool is named in its `extraTools`. Edit here to add a column. */
+   appears in its stack, or the tool is named in its `extraTools`.
+   Excel: ticked for every project whose data arrives as CSV, XLSX or XLS files (the owner's rule). Edit here to add a column. */
 window.TOOLS = [
   { name: "SQL", group: "Languages", match: ["SQL", "SQLite", "PostgreSQL", "DuckDB", "Window functions"] },
   { name: "Python", group: "Languages", match: ["Python", "pandas", "NumPy", "SciPy", "statsmodels", "openpyxl", "pytest"] },
@@ -120,6 +121,7 @@ window.PROJECTS = [
     dataFile: "data/cleaned/fact_responses.csv",
     image: { dark: "assets/img/lifeblood-dark.jpg", light: "assets/img/lifeblood-light.jpg" },
     stack: ["Python", "pandas", "D3.js", "Power BI"],
+    extraTools: ["Excel"],
     published: "2026-10-10T14:28",
     powerbi: "powerbi/Lifeblood_Ledger.pbip"
   },
@@ -139,6 +141,7 @@ window.PROJECTS = [
     rowsLabel: "club-seasons",
     image: { dark: "assets/img/spend-dark.jpg", light: "assets/img/spend-light.jpg" },
     stack: ["Python", "pandas", "NumPy", "Regression", "D3.js", "pytest"],
+    extraTools: ["Excel"],
     cta: "Open the analysis",
     published: "2026-10-10T21:14",
     powerbi: "powerbi/PL_Spending.pbip"
@@ -158,6 +161,7 @@ window.PROJECTS = [
     dataFile: "data/cleaned/sales_clean.csv",
     image: { dark: "assets/img/adidas-dark.jpg", light: "assets/img/adidas-light.jpg" },
     stack: ["Python", "pandas", "Data auditing", "D3.js"],
+    extraTools: ["Excel"],
     published: "2026-10-10T15:36",
     powerbi: "powerbi/Adidas_Audit.pbip"
   },
@@ -178,6 +182,7 @@ window.PROJECTS = [
     rowsLabel: "goals",
     image: { dark: "assets/img/worldcup-dark.jpg", light: "assets/img/worldcup-light.jpg" },
     stack: ["Python", "pandas", "Open data", "D3.js"],
+    extraTools: ["Excel"],
     published: "2026-10-10T16:46"
   },
   {
@@ -216,6 +221,7 @@ window.PROJECTS = [
     rows: 290584,
     image: { dark: "assets/img/abtest-dark.jpg", light: "assets/img/abtest-light.jpg" },
     stack: ["Python", "SciPy", "statsmodels", "D3.js"],
+    extraTools: ["Excel"],
     cta: "Open live readout",
     published: "2026-10-10T15:43"
   },
@@ -255,7 +261,7 @@ window.PROJECTS = [
     rowsLabel: "quarters",
     image: { dark: "assets/img/houses-dark.jpg", light: "assets/img/houses-light.jpg" },
     stack: ["Excel", "INDEX/MATCH", "PMT", "Python", "openpyxl", "LibreOffice"],
-    extraTools: ["CI", "Tests"],
+    extraTools: ["Excel", "CI", "Tests"],
     cta: "Open the analysis",
     published: "2026-10-11T13:26"
   },
@@ -276,7 +282,7 @@ window.PROJECTS = [
     rows: 19,
     image: { dark: "assets/img/olist-pbi-dark.jpg", light: "assets/img/olist-pbi-light.jpg" },
     stack: ["Power BI", "DAX", "Power Query", "TMDL", "Python", "GitHub Actions"],
-    extraTools: ["Tests"],
+    extraTools: ["Excel", "Tests"],
     cta: "Open the report",
     published: "2026-10-11T13:00"
   },
@@ -296,6 +302,7 @@ window.PROJECTS = [
     rowsLabel: "months",
     image: { dark: "assets/img/olist-dark.jpg", light: "assets/img/olist-light.jpg" },
     stack: ["dbt", "SQL", "DuckDB", "PostgreSQL", "Python", "GitHub Actions"],
+    extraTools: ["Excel"],
     cta: "Open the warehouse",
     published: "2026-10-11T12:20"
   },
@@ -315,6 +322,7 @@ window.PROJECTS = [
     rowsLabel: "published rows",
     image: { dark: "assets/img/pipeline-dark.jpg", light: "assets/img/pipeline-light.jpg" },
     stack: ["Python", "pandas", "YAML", "pytest", "GitHub Actions"],
+    extraTools: ["Excel"],
     cta: "Open the control room",
     published: "2026-10-10T17:56"
   },
@@ -334,6 +342,7 @@ window.PROJECTS = [
     rowsLabel: "minutes of readings",
     image: { dark: "assets/img/iaq-dark.jpg", light: "assets/img/iaq-light.jpg" },
     stack: ["Python", "pandas", "NumPy", "D3.js", "pytest"],
+    extraTools: ["Excel"],
     cta: "Open the study",
     published: "2026-10-10T16:39"
   },
@@ -353,7 +362,7 @@ window.PROJECTS = [
     rowsLabel: "providers",
     image: { dark: "assets/img/rtt-dark.jpg", light: "assets/img/rtt-light.jpg" },
     stack: ["R", "tidyverse", "ggplot2", "R Markdown", "testthat"],
-    extraTools: ["Statistics", "CI"],
+    extraTools: ["Excel", "Statistics", "CI"],
     cta: "Open the report",
     published: "2026-10-11T11:45",
     powerbi: "powerbi/RTT_Waiting_List.pbip"
@@ -374,6 +383,7 @@ window.PROJECTS = [
     rowsLabel: "provider-months",
     image: { dark: "assets/img/aespc-dark.jpg", light: "assets/img/aespc-light.jpg" },
     stack: ["Python", "pandas", "SPC", "D3.js", "JavaScript", "pytest"],
+    extraTools: ["Excel"],
     cta: "Open the dashboard",
     published: "2026-10-10T20:04",
     powerbi: "powerbi/AE_SPC.pbip"
@@ -394,6 +404,7 @@ window.PROJECTS = [
     rowsLabel: "hospital spells",
     image: { dark: "assets/img/patientflow-dark.jpg", light: "assets/img/patientflow-light.jpg" },
     stack: ["SQL", "SQLite", "Python", "pandas", "D3.js", "pytest"],
+    extraTools: ["Excel"],
     cta: "Open the SQL lab",
     published: "2026-10-10T19:10",
     powerbi: "powerbi/Patient_Flow.pbip"
