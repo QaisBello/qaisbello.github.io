@@ -183,7 +183,8 @@ window.PROJECTS = [
     image: { dark: "assets/img/worldcup-dark.jpg", light: "assets/img/worldcup-light.jpg" },
     stack: ["Python", "pandas", "Open data", "D3.js"],
     extraTools: ["Excel"],
-    published: "2026-10-10T16:46"
+    published: "2026-10-10T16:46",
+    powerbi: "powerbi/World_Cup.pbip"
   },
   {
     slug: "dannys-diner",
@@ -324,7 +325,8 @@ window.PROJECTS = [
     stack: ["Python", "pandas", "YAML", "pytest", "GitHub Actions"],
     extraTools: ["Excel"],
     cta: "Open the control room",
-    published: "2026-10-10T17:56"
+    published: "2026-10-10T17:56",
+    powerbi: "powerbi/Lifeblood_Pipeline.pbip"
   },
   {
     slug: "indoor-air-quality",
@@ -344,7 +346,8 @@ window.PROJECTS = [
     stack: ["Python", "pandas", "NumPy", "D3.js", "pytest"],
     extraTools: ["Excel"],
     cta: "Open the study",
-    published: "2026-10-10T16:39"
+    published: "2026-10-10T16:39",
+    powerbi: "powerbi/Breathing_Room.pbip"
   },
   {
     slug: "waiting-list-r",
