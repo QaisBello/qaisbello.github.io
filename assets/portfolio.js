@@ -79,6 +79,24 @@ window.TRACKS = [
 
 /* tracks: every category the project fits. The first is its home (where its page lives);
    it also appears on the other tracks' pages, and every card shows all of them as tags. */
+/* Skills matrix (home and About pages): one column per tool. A project ticks a tool when any of `match`
+   appears in its stack, or the tool is named in its `extraTools`. Edit here to add a column. */
+window.TOOLS = [
+  { name: "SQL", group: "Languages", match: ["SQL", "SQLite", "PostgreSQL", "DuckDB", "Window functions"] },
+  { name: "Python", group: "Languages", match: ["Python", "pandas", "NumPy", "SciPy", "statsmodels", "openpyxl", "pytest"] },
+  { name: "R", group: "Languages", match: ["R", "tidyverse", "ggplot2", "R Markdown", "testthat"] },
+  { name: "JavaScript", group: "Languages", match: ["JavaScript", "D3.js", "sql.js"] },
+  { name: "Excel", group: "BI & reporting", match: ["Excel"] },
+  { name: "Power BI", group: "BI & reporting", match: ["Power BI", "DAX", "Power Query"] },
+  { name: "D3.js", group: "BI & reporting", match: ["D3.js"] },
+  { name: "R Markdown", group: "BI & reporting", match: ["R Markdown"] },
+  { name: "dbt", group: "Engineering", match: ["dbt"] },
+  { name: "Databases", group: "Engineering", match: ["PostgreSQL", "DuckDB", "SQLite"] },
+  { name: "CI", group: "Engineering", match: ["GitHub Actions", "CI"] },
+  { name: "Tests", group: "Engineering", match: ["pytest", "testthat", "dbt"] },
+  { name: "Statistics", group: "Methods", match: ["Regression", "SPC", "SciPy", "statsmodels", "Statistical modelling"] }
+];
+
 window.PROJECTS = [
   {
     slug: "lifeblood-ledger",
@@ -232,6 +250,7 @@ window.PROJECTS = [
     rowsLabel: "quarters",
     image: { dark: "assets/img/houses-dark.jpg", light: "assets/img/houses-light.jpg" },
     stack: ["Excel", "INDEX/MATCH", "PMT", "Python", "openpyxl", "LibreOffice"],
+    extraTools: ["CI", "Tests"],
     cta: "Open the analysis",
     date: "2026-10"
   },
@@ -252,6 +271,7 @@ window.PROJECTS = [
     rows: 19,
     image: { dark: "assets/img/olist-pbi-dark.jpg", light: "assets/img/olist-pbi-light.jpg" },
     stack: ["Power BI", "DAX", "Power Query", "TMDL", "Python", "GitHub Actions"],
+    extraTools: ["Tests"],
     cta: "Open the report",
     date: "2026-10"
   },
@@ -328,6 +348,7 @@ window.PROJECTS = [
     rowsLabel: "providers",
     image: { dark: "assets/img/rtt-dark.jpg", light: "assets/img/rtt-light.jpg" },
     stack: ["R", "tidyverse", "ggplot2", "R Markdown", "testthat"],
+    extraTools: ["Statistics", "CI"],
     cta: "Open the report",
     date: "2026-10"
   },

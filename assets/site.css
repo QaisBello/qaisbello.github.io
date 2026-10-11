@@ -202,3 +202,28 @@ footer a{color:var(--muted)}
 .ttag::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--tc)}
 .ttag:hover{border-color:var(--tc)}
 .ttag.here{font-weight:600;border-color:var(--tc)}
+
+/* skills matrix */
+.matrix-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.matrix{overflow-x:auto}
+.matrix table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+.matrix th,.matrix td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.matrix tr.grp th{font-family:var(--font-mono);font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);padding-top:12px;border-bottom:0}
+.matrix th.tool button{all:unset;cursor:pointer;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);padding:3px 6px;border-radius:6px;writing-mode:vertical-rl;transform:rotate(180deg);line-height:1.2}
+.matrix th.tool button:hover{color:var(--ink)}
+.matrix th.tool button:focus-visible{outline:2px solid var(--ink)}
+.matrix th.tool button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.matrix .proj{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;padding-left:16px;padding-right:12px;min-width:200px;white-space:normal}
+.matrix thead th.proj{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;vertical-align:bottom}
+.matrix td.proj a{text-decoration:none;font-weight:500}
+.matrix td.proj a:hover{text-decoration:underline}
+.matrix .gs{border-left:1px solid var(--line)}
+.matrix .dot{display:inline-block;width:11px;height:11px;border-radius:50%}
+.matrix .off{color:var(--line)}
+.matrix .col-hi{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.matrix tr.dim td:not(.proj){opacity:.25}
+.matrix tr.dim td.proj{opacity:.45}
+.matrix tfoot td{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);border-bottom:0}
+.matrix tfoot td.proj{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
+.matrix-note{font-family:var(--font-mono);font-size:12px;color:var(--muted);padding:10px 16px;border-top:1px solid var(--line)}
+@media (max-width:640px){.matrix .proj{min-width:130px;max-width:150px;font-size:12px;padding-left:12px}.matrix th,.matrix td{padding:7px 4px}}

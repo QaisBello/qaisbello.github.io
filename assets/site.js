@@ -134,6 +134,42 @@
       `<article class="card slot"><span class="chip soon">Next slot</span><h3>Next project</h3><p>In progress. New projects land here and read their data live from their own repo.</p></article>`;
   }
 
+
+  /* ---------- skills matrix: projects down, tools across */
+  const mx = $("#matrix");
+  if (mx && window.TOOLS) {
+    const TOOLS = window.TOOLS, order = TRACKS.map(t => t.id);
+    const uses = (p, t) => (p.extraTools || []).includes(t.name) || t.match.some(m => p.stack.some(s => s.toLowerCase() === m.toLowerCase()));
+    const live = PROJECTS.filter(p => p.status === "live").sort((a, b) => order.indexOf(home(a)) - order.indexOf(home(b)));
+    const groups = [];
+    TOOLS.forEach(t => { const g = groups[groups.length - 1]; if (g && g.name === t.group) g.n++; else groups.push({ name: t.group, n: 1 }); });
+    const gStart = i => TOOLS[i - 1] && TOOLS[i - 1].group !== TOOLS[i].group ? " gs" : "";
+    mx.innerHTML = `<table>
+      <thead>
+        <tr class="grp"><th></th>${groups.map((g, i) => `<th colspan="${g.n}" class="${i ? "gs" : ""}">${esc(g.name)}</th>`).join("")}</tr>
+        <tr><th class="proj">project</th>${TOOLS.map((t, i) => `<th class="tool${gStart(i)}" data-i="${i}"><button type="button" aria-pressed="false" data-i="${i}">${esc(t.name)}</button></th>`).join("")}</tr>
+      </thead>
+      <tbody>${live.map(p => `<tr data-row="${p.slug}">
+        <td class="proj"><span class="sw" style="background:var(--t-${home(p)})"></span><a href="${ROOT}${p.page}">${esc(p.title)}</a></td>
+        ${TOOLS.map((t, i) => uses(p, t) ? `<td class="on${gStart(i)}" data-i="${i}" title="${esc(p.title)} uses ${esc(t.name)}"><span class="dot" style="background:var(--t-${home(p)})" aria-label="uses ${esc(t.name)}"></span></td>` : `<td class="${gStart(i).trim()}" data-i="${i}"><span class="off" aria-hidden="true">·</span></td>`).join("")}
+      </tr>`).join("")}</tbody>
+      <tfoot><tr><td class="proj">projects using it</td>${TOOLS.map((t, i) => `<td class="${gStart(i).trim()}" data-i="${i}">${live.filter(p => uses(p, t)).length}</td>`).join("")}</tr></tfoot>
+    </table>`;
+    const note = $("#matrix-note");
+    let sel = null;
+    const apply = () => {
+      mx.querySelectorAll("button[data-i]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === sel)));
+      mx.querySelectorAll("[data-i]").forEach(c => c.classList.toggle("col-hi", sel !== null && +c.dataset.i === sel));
+      mx.querySelectorAll("tbody tr").forEach(r => r.classList.toggle("dim", sel !== null && !r.querySelector(`td.on[data-i="${sel}"]`)));
+      if (note) {
+        if (sel === null) note.textContent = `${live.length} live projects, ${TOOLS.length} tools. Click a tool to see where it is used.`;
+        else { const t = TOOLS[sel], ps = live.filter(p => uses(p, t)); note.textContent = `${t.name}: ${ps.length} project${ps.length === 1 ? "" : "s"}. Click again to clear.`; }
+      }
+    };
+    mx.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (!b) return; sel = sel === +b.dataset.i ? null : +b.dataset.i; apply(); });
+    apply();
+  }
+
   PROJECTS.filter(p => p.status === "live").forEach(paintStats);
 
   /* ---------- about page */
