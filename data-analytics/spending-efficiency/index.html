@@ -258,7 +258,7 @@ const ordinal=n=>n+(["th","st","nd","rd"][(n%100-20)%10]||["th","st","nd","rd"][
 
 /* ---------- bars: over-performance with CI */
 function bars(){
-  const {svg,W,H}=frame("bars"), mg={t:8,r:56,b:24,l:130};
+  const {svg,W,H}=frame("bars"), mg={t:8,r:56,b:24,l:150};
   const k=state.adj?"_adj":"", d=S.slice().sort((a,b)=>b["avg_over_pts"+k]-a["avg_over_pts"+k]);
   const y=d3.scaleBand().domain(d.map(r=>r.club)).range([mg.t,H-mg.b]).padding(.35);
   const x=d3.scaleLinear().domain([d3.min(d,r=>r["over_pts_ci_low"+k])-1,d3.max(d,r=>r["over_pts_ci_high"+k])+1]).range([mg.l,W-mg.r]);
@@ -275,7 +275,7 @@ function bars(){
 
 /* ---------- cost per point */
 function cost(){
-  const {svg,W,H}=frame("cost"), mg={t:8,r:60,b:24,l:130};
+  const {svg,W,H}=frame("cost"), mg={t:8,r:60,b:24,l:150};
   const d=S.slice().sort((a,b)=>a.cost_per_point_gbp_m-b.cost_per_point_gbp_m);
   const y=d3.scaleBand().domain(d.map(r=>r.club)).range([mg.t,H-mg.b]).padding(.35), x=d3.scaleLinear().domain([0,d3.max(d,r=>r.cost_per_point_gbp_m)*1.1]).range([mg.l,W-mg.r]);
   svg.append("g").attr("class","axis").attr("transform",`translate(0,${H-mg.b})`).call(d3.axisBottom(x).ticks(5).tickSize(-(H-mg.t-mg.b)).tickFormat(v=>"£"+v+"m")).call(g=>{g.select(".domain").remove();g.selectAll(".tick line").attr("stroke",css("--rule"));});
@@ -299,15 +299,15 @@ function stress(){
 
 /* ---------- affordability */
 function afford(){
-  const {svg,W,H}=frame("afford"), mg={t:14,r:90,b:28,l:44};
+  const {svg,W,H}=frame("afford"), mg={t:14,r:W<600?96:170,b:28,l:44};
   const d=CS.filter(r=>r.club===CITY&&r.season>="2009-10"&&r.season<="2017-18").sort((a,b)=>d3.ascending(a.season,b.season))
     .map(r=>({...r,wage_revenue_pct:100*r.wages_gbp_m/r.revenue_gbp_m,wage_revenue_pct_adj:100*r.wages_gbp_m/(r.revenue_gbp_m-r.owner_funded_sponsorship_gbp_m)}));
   const x=d3.scalePoint().domain(d.map(r=>r.season)).range([mg.l,W-mg.r]).padding(.3), y=d3.scaleLinear().domain([0,Math.max(120,d3.max(d,r=>r.wage_revenue_pct_adj))]).nice().range([H-mg.b,mg.t]);
   svg.append("g").attr("class","axis").attr("transform",`translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W-mg.l-mg.r)).tickFormat(v=>v+"%")).call(g=>{g.select(".domain").remove();g.selectAll(".tick line").attr("stroke",css("--rule"));});
   svg.append("g").attr("class","axis").attr("transform",`translate(0,${H-mg.b})`).call(d3.axisBottom(x).tickSize(3).tickFormat(s=>W<600?s.slice(2):s)).select(".domain").remove();
   svg.append("line").attr("x1",mg.l).attr("x2",W-mg.r).attr("y1",y(70)).attr("y2",y(70)).attr("stroke",css("--muted")).attr("stroke-dasharray","3 3");
-  svg.append("text").attr("x",W-mg.r+6).attr("y",y(70)).attr("dy",".35em").style("font-size","10.5px").style("fill",css("--muted")).text("70%");
-  [["wage_revenue_pct","--hi","As reported"],["wage_revenue_pct_adj","--neg","Without owner money"]].forEach(([k,c,l])=>{
+  svg.append("text").attr("x",mg.l+4).attr("y",y(70)).attr("dy","-.4em").style("font-size","10.5px").style("fill",css("--muted")).text("70%");
+  [["wage_revenue_pct","--hi",W<600?"Reported":"As reported"],["wage_revenue_pct_adj","--neg",W<600?"Genuine":"Without owner money"]].forEach(([k,c,l])=>{
     svg.append("path").datum(d).attr("fill","none").attr("stroke",css(c)).attr("stroke-width",2).attr("d",d3.line().x(r=>x(r.season)).y(r=>y(r[k])));
     svg.append("g").selectAll("circle").data(d).join("circle").attr("cx",r=>x(r.season)).attr("cy",r=>y(r[k])).attr("r",4.5).attr("fill",css(c)).attr("stroke",css("--card")).attr("stroke-width",2)
       .on("mousemove",(e,r)=>showTip(e,`<b>City ${r.season}</b><br>Wages £${f0(r.wages_gbp_m)}m<br>Revenue £${f0(r.revenue_gbp_m)}m, of which owner-funded £${f1(r.owner_funded_sponsorship_gbp_m)}m<br>Wages / revenue: ${f1(r.wage_revenue_pct)}% reported, <b>${f1(r.wage_revenue_pct_adj)}%</b> without owner money`)).on("mouseleave",hideTip);
