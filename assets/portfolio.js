@@ -255,6 +255,25 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
+    slug: "waiting-list-r",
+    tracks: ["health-data", "data-science"],
+    status: "live",
+    title: "Who waits longest?",
+    client: "NHS England waiting-list data (public)",
+    summary: "England's 7.2 million-strong waiting list, rebuilt in R from NHS England's raw files and matched exactly to the published figures. Which specialties wait longest, and which trusts are really different once normal variation is allowed for, using an overdispersed funnel plot.",
+    headline: "125 trusts look like outliers. Only 18 really are.",
+    highlights: [["65.2%", "seen within 18 weeks"], ["18 of 139", "trusts really different"], ["Exact", "match to published figures"]],
+    page: "health-data/waiting-list-r/index.html",
+    repo: "QaisBello/nhs-rtt-r",
+    branch: "main",
+    dataFile: "data/clean/provider_summary.csv",
+    rowsLabel: "providers",
+    image: { dark: "assets/img/rtt-dark.jpg", light: "assets/img/rtt-light.jpg" },
+    stack: ["R", "tidyverse", "ggplot2", "R Markdown", "testthat"],
+    cta: "Open the report",
+    date: "2026-10"
+  },
+  {
     slug: "ae-spc",
     tracks: ["health-data", "data-analytics"],
     status: "live",
