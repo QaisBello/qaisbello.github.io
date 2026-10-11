@@ -103,6 +103,25 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
+    slug: "spending-efficiency",
+    tracks: ["data-analytics", "data-science"],
+    status: "live",
+    title: "Spent more, or spent better?",
+    client: "Premier League top six, 2008-09 to 2025-26 (public data)",
+    summary: "After the 114-charge verdict, did City just outspend everyone? Wages, transfers and points for the top six over 18 seasons: City won 7.5 points a season more than their wage bill predicts, best of the six, and the costs they hid don't change that. Without the owner money dressed as sponsorship, though, wages ate 93% of genuine revenue.",
+    headline: "City spent the most, and spent it best. That isn't the same as playing fair.",
+    highlights: [["+7.5", "points a season above expected"], ["26×", "hidden costs needed to change the answer"], ["93%", "wages vs genuine revenue, 2009-18"]],
+    page: "data-analytics/spending-efficiency/index.html",
+    repo: "QaisBello/pl-spending-efficiency",
+    branch: "main",
+    dataFile: "data/clean/club_seasons.csv",
+    rowsLabel: "club-seasons",
+    image: { dark: "assets/img/spend-dark.jpg", light: "assets/img/spend-light.jpg" },
+    stack: ["Python", "pandas", "NumPy", "Regression", "D3.js", "pytest"],
+    cta: "Open the analysis",
+    date: "2026-10"
+  },
+  {
     slug: "adidas-sales",
     tracks: ["data-analytics"],
     status: "live",
