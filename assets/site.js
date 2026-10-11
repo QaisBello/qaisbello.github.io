@@ -94,19 +94,22 @@
   const shot = p => p.image ? `<img class="theme-img-light" src="${ROOT}${p.image.light}" alt="${esc(p.title)} dashboard, light theme" loading="lazy"><img class="theme-img-dark" src="${ROOT}${p.image.dark}" alt="${esc(p.title)} dashboard, dark theme" loading="lazy">` : "";
   const actions = p => `
     <a class="btn primary" href="${ROOT}${p.page}">${p.cta || "Open live dashboard"} ${ICON.arrow}</a>
-    <a class="btn" href="https://github.com/${p.repo}" target="_blank" rel="noopener">${ICON.gh} Code &amp; data</a>`;
+    <a class="btn" href="https://github.com/${p.repo}" target="_blank" rel="noopener">${ICON.gh} Code &amp; data</a>${p.powerbi ? `
+    <a class="btn" href="https://github.com/${p.repo}/tree/${p.branch || "main"}/${p.powerbi.split("/").slice(0, -1).join("/")}" target="_blank" rel="noopener" title="Power BI project (.pbip) for this analysis">Power BI</a>` : ""}`;
 
   const feat = $("#featured");
   if (feat) {
-    const p = PROJECTS.find(x => x.status === "live");
+    const p = PROJECTS.filter(x => x.status === "live").sort((a, b) => (b.published || "").localeCompare(a.published || ""))[0];
     if (p) {
+      const hero = $("#hero-latest");
+      if (hero) { hero.href = ROOT + p.page; hero.title = p.title; }
       feat.innerHTML = `<article class="feature">
         <a class="shot" href="${ROOT}${p.page}" aria-label="Open ${esc(p.title)}">${shot(p)}</a>
         <div class="body">
           <div class="client">${p.clientLogo ? `<img src="${ROOT}${p.clientLogo}" alt="${esc(p.client)}">` : ""}<span class="chip live" data-src="${p.slug}">Live from GitHub</span></div>
           <h3>${esc(p.title)}</h3>
           ${trackTags(p)}
-          <p class="quote">${esc(p.headline).replace(/(\d+%)/, "<em>$1</em>")}</p>
+          <p class="quote">${esc(p.headline).replace(/(\d[\d.,]*%)/, "<em>$1</em>")}</p>
           <p class="sum">${esc(p.summary)}</p>
           <div class="stats">${p.highlights.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("")}</div>
           <div class="meta-line"><span>source: <a href="https://github.com/${p.repo}" target="_blank" rel="noopener">${esc(p.repo)}</a></span><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span><span>data updated: <span data-date="${p.slug}">…</span></span></div>
@@ -119,7 +122,8 @@
   const gal = $("#gallery");
   if (gal) {
     const track = gal.dataset.track;
-    const ps = PROJECTS.filter(p => home(p) === track).concat(PROJECTS.filter(p => home(p) !== track && inTrack(p, track)));
+    const newest = (a, b) => (b.published || "").localeCompare(a.published || "");
+    const ps = PROJECTS.filter(p => home(p) === track).sort(newest).concat(PROJECTS.filter(p => home(p) !== track && inTrack(p, track)).sort(newest));
     gal.innerHTML = ps.map(p => `<article class="card">
         <a class="shot" href="${ROOT}${p.page}" aria-label="Open ${esc(p.title)}">${shot(p)}</a>
         <div class="body">
@@ -139,7 +143,8 @@
   const mx = $("#matrix");
   if (mx && window.TOOLS) {
     const TOOLS = window.TOOLS, order = TRACKS.map(t => t.id);
-    const uses = (p, t) => (p.extraTools || []).includes(t.name) || t.match.some(m => p.stack.some(s => s.toLowerCase() === m.toLowerCase()));
+    const uses = (p, t) => (p.extraTools || []).includes(t.name) || (p.powerbi && (t.name === "Power BI" || t.name === "CI"))
+      || t.match.some(m => p.stack.some(s => s.toLowerCase() === m.toLowerCase()));
     const live = PROJECTS.filter(p => p.status === "live").sort((a, b) => order.indexOf(home(a)) - order.indexOf(home(b)));
     const groups = [];
     TOOLS.forEach(t => { const g = groups[groups.length - 1]; if (g && g.name === t.group) g.n++; else groups.push({ name: t.group, n: 1 }); });

@@ -77,7 +77,9 @@ window.TRACKS = [
     coming: ["An in-browser beam solver (slope-deflection method) with live shear and moment diagrams", "Estimating and takeoff helpers", "Small calculators that check the maths behind a design"] }
 ];
 
-/* tracks: every category the project fits. The first is its home (where its page lives);
+/* published: when the project went live (ISO date and time). The home page features the newest live project automatically.
+   powerbi: path to the project's Power BI file in its repo, when it has one (adds a Power BI button and the Power BI tick).
+   tracks: every category the project fits. The first is its home (where its page lives);
    it also appears on the other tracks' pages, and every card shows all of them as tags. */
 /* Skills matrix (home and About pages): one column per tool. A project ticks a tool when any of `match`
    appears in its stack, or the tool is named in its `extraTools`. Edit here to add a column. */
@@ -118,7 +120,8 @@ window.PROJECTS = [
     dataFile: "data/cleaned/fact_responses.csv",
     image: { dark: "assets/img/lifeblood-dark.jpg", light: "assets/img/lifeblood-light.jpg" },
     stack: ["Python", "pandas", "D3.js", "Power BI"],
-    date: "2026-10"
+    published: "2026-10-10T14:28",
+    powerbi: "powerbi/Lifeblood_Ledger.pbip"
   },
   {
     slug: "spending-efficiency",
@@ -137,7 +140,8 @@ window.PROJECTS = [
     image: { dark: "assets/img/spend-dark.jpg", light: "assets/img/spend-light.jpg" },
     stack: ["Python", "pandas", "NumPy", "Regression", "D3.js", "pytest"],
     cta: "Open the analysis",
-    date: "2026-10"
+    published: "2026-10-10T21:14",
+    powerbi: "powerbi/PL_Spending.pbip"
   },
   {
     slug: "adidas-sales",
@@ -154,7 +158,8 @@ window.PROJECTS = [
     dataFile: "data/cleaned/sales_clean.csv",
     image: { dark: "assets/img/adidas-dark.jpg", light: "assets/img/adidas-light.jpg" },
     stack: ["Python", "pandas", "Data auditing", "D3.js"],
-    date: "2026-10"
+    published: "2026-10-10T15:36",
+    powerbi: "powerbi/Adidas_Audit.pbip"
   },
   {
     slug: "world-cup",
@@ -173,7 +178,7 @@ window.PROJECTS = [
     rowsLabel: "goals",
     image: { dark: "assets/img/worldcup-dark.jpg", light: "assets/img/worldcup-light.jpg" },
     stack: ["Python", "pandas", "Open data", "D3.js"],
-    date: "2026-10"
+    published: "2026-10-10T16:46"
   },
   {
     slug: "dannys-diner",
@@ -193,7 +198,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/diner-dark.jpg", light: "assets/img/diner-light.jpg" },
     stack: ["SQL", "SQLite", "Window functions", "sql.js"],
     cta: "Open SQL playground",
-    date: "2026-10"
+    published: "2026-10-10T16:47"
   },
   {
     slug: "ab-test-readout",
@@ -212,7 +217,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/abtest-dark.jpg", light: "assets/img/abtest-light.jpg" },
     stack: ["Python", "SciPy", "statsmodels", "D3.js"],
     cta: "Open live readout",
-    date: "2026-10"
+    published: "2026-10-10T15:43"
   },
   {
     slug: "beam-lab",
@@ -232,7 +237,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/beamlab-dark.jpg", light: "assets/img/beamlab-light.jpg" },
     stack: ["Python", "NumPy", "JavaScript", "D3.js", "CI"],
     cta: "Open Beam Lab",
-    date: "2026-10"
+    published: "2026-10-10T15:51"
   },
   {
     slug: "uk-house-prices",
@@ -252,7 +257,7 @@ window.PROJECTS = [
     stack: ["Excel", "INDEX/MATCH", "PMT", "Python", "openpyxl", "LibreOffice"],
     extraTools: ["CI", "Tests"],
     cta: "Open the analysis",
-    date: "2026-10"
+    published: "2026-10-11T13:26"
   },
   {
     slug: "olist-powerbi",
@@ -273,7 +278,7 @@ window.PROJECTS = [
     stack: ["Power BI", "DAX", "Power Query", "TMDL", "Python", "GitHub Actions"],
     extraTools: ["Tests"],
     cta: "Open the report",
-    date: "2026-10"
+    published: "2026-10-11T13:00"
   },
   {
     slug: "olist-warehouse",
@@ -292,7 +297,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/olist-dark.jpg", light: "assets/img/olist-light.jpg" },
     stack: ["dbt", "SQL", "DuckDB", "PostgreSQL", "Python", "GitHub Actions"],
     cta: "Open the warehouse",
-    date: "2026-10"
+    published: "2026-10-11T12:20"
   },
   {
     slug: "lifeblood-pipeline",
@@ -311,7 +316,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/pipeline-dark.jpg", light: "assets/img/pipeline-light.jpg" },
     stack: ["Python", "pandas", "YAML", "pytest", "GitHub Actions"],
     cta: "Open the control room",
-    date: "2026-10"
+    published: "2026-10-10T17:56"
   },
   {
     slug: "indoor-air-quality",
@@ -330,7 +335,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/iaq-dark.jpg", light: "assets/img/iaq-light.jpg" },
     stack: ["Python", "pandas", "NumPy", "D3.js", "pytest"],
     cta: "Open the study",
-    date: "2026-10"
+    published: "2026-10-10T16:39"
   },
   {
     slug: "waiting-list-r",
@@ -350,7 +355,8 @@ window.PROJECTS = [
     stack: ["R", "tidyverse", "ggplot2", "R Markdown", "testthat"],
     extraTools: ["Statistics", "CI"],
     cta: "Open the report",
-    date: "2026-10"
+    published: "2026-10-11T11:45",
+    powerbi: "powerbi/RTT_Waiting_List.pbip"
   },
   {
     slug: "ae-spc",
@@ -369,7 +375,8 @@ window.PROJECTS = [
     image: { dark: "assets/img/aespc-dark.jpg", light: "assets/img/aespc-light.jpg" },
     stack: ["Python", "pandas", "SPC", "D3.js", "JavaScript", "pytest"],
     cta: "Open the dashboard",
-    date: "2026-10"
+    published: "2026-10-10T20:04",
+    powerbi: "powerbi/AE_SPC.pbip"
   },
   {
     slug: "patient-flow-sql",
@@ -388,6 +395,7 @@ window.PROJECTS = [
     image: { dark: "assets/img/patientflow-dark.jpg", light: "assets/img/patientflow-light.jpg" },
     stack: ["SQL", "SQLite", "Python", "pandas", "D3.js", "pytest"],
     cta: "Open the SQL lab",
-    date: "2026-10"
+    published: "2026-10-10T19:10",
+    powerbi: "powerbi/Patient_Flow.pbip"
   }
 ];
