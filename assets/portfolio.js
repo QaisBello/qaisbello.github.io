@@ -217,6 +217,25 @@ window.PROJECTS = [
     date: "2026-10"
   },
   {
+    slug: "olist-warehouse",
+    tracks: ["data-engineering", "data-analytics"],
+    status: "live",
+    title: "Late parcels, angry customers",
+    client: "Olist Brazilian e-commerce (public data)",
+    summary: "100,000 real marketplace orders modelled into a dbt star schema with 61 data tests, building identically on DuckDB and PostgreSQL. It answers what drives one-star reviews: late parcels. Orders 4 to 7 days late get one star 58.6% of the time.",
+    headline: "On time: 4.29 stars. Late: 2.27.",
+    highlights: [["61", "dbt tests on every build"], ["2", "engines, identical answers"], ["58.6%", "one-star when 4-7 days late"]],
+    page: "data-engineering/olist-warehouse/index.html",
+    repo: "QaisBello/olist-dbt-warehouse",
+    branch: "main",
+    dataFile: "data/clean/mart_monthly_sales.csv",
+    rowsLabel: "months",
+    image: { dark: "assets/img/olist-dark.jpg", light: "assets/img/olist-light.jpg" },
+    stack: ["dbt", "SQL", "DuckDB", "PostgreSQL", "Python", "GitHub Actions"],
+    cta: "Open the warehouse",
+    date: "2026-10"
+  },
+  {
     slug: "lifeblood-pipeline",
     tracks: ["data-engineering", "health-data"],
     status: "live",

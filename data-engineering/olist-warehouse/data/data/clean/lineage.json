@@ -1,0 +1,352 @@
+{
+ "nodes": [
+  {
+   "id": "model.olist_warehouse.int_order_payments",
+   "name": "int_order_payments",
+   "layer": "intermediate",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.int_order_items",
+   "name": "int_order_items",
+   "layer": "intermediate",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.int_order_reviews",
+   "name": "int_order_reviews",
+   "layer": "intermediate",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.mart_monthly_sales",
+   "name": "mart_monthly_sales",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.dim_sellers",
+   "name": "dim_sellers",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.fct_order_items",
+   "name": "fct_order_items",
+   "layer": "marts",
+   "description": "One row per item sold."
+  },
+  {
+   "id": "model.olist_warehouse.mart_category_performance",
+   "name": "mart_category_performance",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.dim_customers",
+   "name": "dim_customers",
+   "layer": "marts",
+   "description": "One row per person (customer_unique_id)."
+  },
+  {
+   "id": "model.olist_warehouse.dim_products",
+   "name": "dim_products",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.fct_orders",
+   "name": "fct_orders",
+   "layer": "marts",
+   "description": "One row per order."
+  },
+  {
+   "id": "model.olist_warehouse.mart_state_delivery",
+   "name": "mart_state_delivery",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.dq_findings",
+   "name": "dq_findings",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.mart_delivery_reviews",
+   "name": "mart_delivery_reviews",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.dim_date",
+   "name": "dim_date",
+   "layer": "marts",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_order_payments",
+   "name": "stg_order_payments",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_sellers",
+   "name": "stg_sellers",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_products",
+   "name": "stg_products",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_customers",
+   "name": "stg_customers",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_order_items",
+   "name": "stg_order_items",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "model.olist_warehouse.stg_orders",
+   "name": "stg_orders",
+   "layer": "staging",
+   "description": "One row per order, timestamps typed."
+  },
+  {
+   "id": "model.olist_warehouse.stg_order_reviews",
+   "name": "stg_order_reviews",
+   "layer": "staging",
+   "description": ""
+  },
+  {
+   "id": "seed.olist_warehouse.category_translation_fixes",
+   "name": "category_translation_fixes",
+   "layer": "seed",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.orders",
+   "name": "orders",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.order_items",
+   "name": "order_items",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.order_payments",
+   "name": "order_payments",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.order_reviews",
+   "name": "order_reviews",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.customers",
+   "name": "customers",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.sellers",
+   "name": "sellers",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.products",
+   "name": "products",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.product_category_name_translation",
+   "name": "product_category_name_translation",
+   "layer": "source",
+   "description": ""
+  },
+  {
+   "id": "source.olist_warehouse.raw.geolocation",
+   "name": "geolocation",
+   "layer": "source",
+   "description": "Loaded for completeness; not used by the marts (one row per zip prefix and coordinate, 1m rows)."
+  }
+ ],
+ "edges": [
+  {
+   "source": "model.olist_warehouse.stg_order_payments",
+   "target": "model.olist_warehouse.int_order_payments"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_items",
+   "target": "model.olist_warehouse.int_order_items"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_reviews",
+   "target": "model.olist_warehouse.int_order_reviews"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.mart_monthly_sales"
+  },
+  {
+   "source": "model.olist_warehouse.dim_date",
+   "target": "model.olist_warehouse.mart_monthly_sales"
+  },
+  {
+   "source": "model.olist_warehouse.stg_sellers",
+   "target": "model.olist_warehouse.dim_sellers"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_items",
+   "target": "model.olist_warehouse.fct_order_items"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.fct_order_items"
+  },
+  {
+   "source": "model.olist_warehouse.dim_products",
+   "target": "model.olist_warehouse.fct_order_items"
+  },
+  {
+   "source": "model.olist_warehouse.fct_order_items",
+   "target": "model.olist_warehouse.mart_category_performance"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.mart_category_performance"
+  },
+  {
+   "source": "model.olist_warehouse.stg_orders",
+   "target": "model.olist_warehouse.dim_customers"
+  },
+  {
+   "source": "model.olist_warehouse.stg_customers",
+   "target": "model.olist_warehouse.dim_customers"
+  },
+  {
+   "source": "model.olist_warehouse.stg_products",
+   "target": "model.olist_warehouse.dim_products"
+  },
+  {
+   "source": "model.olist_warehouse.stg_orders",
+   "target": "model.olist_warehouse.fct_orders"
+  },
+  {
+   "source": "model.olist_warehouse.stg_customers",
+   "target": "model.olist_warehouse.fct_orders"
+  },
+  {
+   "source": "model.olist_warehouse.int_order_items",
+   "target": "model.olist_warehouse.fct_orders"
+  },
+  {
+   "source": "model.olist_warehouse.int_order_payments",
+   "target": "model.olist_warehouse.fct_orders"
+  },
+  {
+   "source": "model.olist_warehouse.int_order_reviews",
+   "target": "model.olist_warehouse.fct_orders"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.mart_state_delivery"
+  },
+  {
+   "source": "source.olist_warehouse.raw.products",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "source.olist_warehouse.raw.product_category_name_translation",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_orders",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_items",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_payments",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.int_order_reviews",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_order_reviews",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_products",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.stg_customers",
+   "target": "model.olist_warehouse.dq_findings"
+  },
+  {
+   "source": "model.olist_warehouse.fct_orders",
+   "target": "model.olist_warehouse.mart_delivery_reviews"
+  },
+  {
+   "source": "source.olist_warehouse.raw.order_payments",
+   "target": "model.olist_warehouse.stg_order_payments"
+  },
+  {
+   "source": "source.olist_warehouse.raw.sellers",
+   "target": "model.olist_warehouse.stg_sellers"
+  },
+  {
+   "source": "source.olist_warehouse.raw.product_category_name_translation",
+   "target": "model.olist_warehouse.stg_products"
+  },
+  {
+   "source": "source.olist_warehouse.raw.products",
+   "target": "model.olist_warehouse.stg_products"
+  },
+  {
+   "source": "seed.olist_warehouse.category_translation_fixes",
+   "target": "model.olist_warehouse.stg_products"
+  },
+  {
+   "source": "source.olist_warehouse.raw.customers",
+   "target": "model.olist_warehouse.stg_customers"
+  },
+  {
+   "source": "source.olist_warehouse.raw.order_items",
+   "target": "model.olist_warehouse.stg_order_items"
+  },
+  {
+   "source": "source.olist_warehouse.raw.orders",
+   "target": "model.olist_warehouse.stg_orders"
+  },
+  {
+   "source": "source.olist_warehouse.raw.order_reviews",
+   "target": "model.olist_warehouse.stg_order_reviews"
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+source,finding,rows_affected,action
+orders,Delivered but no delivery date,8,Kept; is_late and delivery_days left null
+orders,Orders with no items (mostly canceled or unavailable),775,Kept with zero value; left out of sales marts
+orders,Orders with no payment record,1,Kept; payment fields null
+orders,Payments differ from items + freight by more than 0.05,323,Flagged (payment_mismatch): vouchers and instalment interest
+orders,Thin months outside Jan 2017 - Aug 2018,349,Kept; in_analysis_window = false
+reviews,Orders with more than one review,547,Most recently answered review kept
+reviews,Review IDs attached to more than one order,789,Grain set to review x order
+payments,Payment type not_defined,3,Relabelled unknown
+payments,Zero instalments,2,Kept as recorded
+products,No category,610,Category set to unknown
+products,Category with no English translation,13,Translated in seeds/category_translation_fixes.csv
+products,Misspelt columns (lenght),2,Renamed name_length and description_length
+customers,"One person, several customer_ids",2997,Customers keyed on customer_unique_id
