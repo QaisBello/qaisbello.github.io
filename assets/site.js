@@ -53,15 +53,12 @@
     if (cached && Date.now() - cached.t < 10 * 60 * 1000) return cached;
     const out = { t: Date.now(), rows: null, date: null };
     try { const r = await fetch(rawUrl(p), { cache: "no-store" }); if (r.ok) { const txt = await r.text(); out.rows = p.rows ?? Math.max(0, txt.trim().split(/\r?\n/).length - 1); } } catch (e) {}
-    try { const r = await fetch(`https://api.github.com/repos/${p.repo}/commits?path=${encodeURIComponent(p.dataFile)}&per_page=1`); if (r.ok) { const j = await r.json(); out.date = j[0]?.commit?.committer?.date || null; } } catch (e) {}
     if (out.rows !== null) store.sset(key, out);
     return out;
   }
-  const fmtDate = d => new Date(d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
   function paintStats(p) {
     liveStats(p).then(s => {
       document.querySelectorAll(`[data-rows="${p.slug}"]`).forEach(el => el.textContent = s.rows !== null ? s.rows.toLocaleString() : "–");
-      document.querySelectorAll(`[data-date="${p.slug}"]`).forEach(el => el.textContent = s.date ? fmtDate(s.date) : (s.rows !== null ? "live" : "snapshot"));
       document.querySelectorAll(`[data-src="${p.slug}"]`).forEach(el => {
         el.className = "chip " + (s.rows !== null ? "live" : "");
         el.textContent = s.rows !== null ? "Live from GitHub" : "Snapshot";
@@ -79,7 +76,6 @@
         <td><span class="sw" style="background:var(--t-${t.id})"></span><a href="${ROOT}${t.path}">${esc(t.name.toLowerCase().replace(/ /g, "_"))}</a></td>
         <td>${live.length ? '<span class="chip live">live</span>' : '<span class="chip soon">coming soon</span>'}</td>
         <td class="num">${live.length ? live.length : "–"}</td>
-        <td>${live.length ? `<span data-date="${live[0].slug}">…</span>` : "–"}</td>
       </tr>`;
     }).join("");
     $("#index-count").textContent = `${PROJECTS.filter(p => p.status === "live").length} live · ${TRACKS.length} tracks`;
@@ -112,7 +108,7 @@
           <p class="quote">${esc(p.headline).replace(/(\d[\d.,]*%)/, "<em>$1</em>")}</p>
           <p class="sum">${esc(p.summary)}</p>
           <div class="stats">${p.highlights.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("")}</div>
-          <div class="meta-line"><span>source: <a href="https://github.com/${p.repo}" target="_blank" rel="noopener">${esc(p.repo)}</a></span><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span><span>data updated: <span data-date="${p.slug}">…</span></span></div>
+          <div class="meta-line"><span>source: <a href="https://github.com/${p.repo}" target="_blank" rel="noopener">${esc(p.repo)}</a></span><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span></div>
           <div class="cta">${actions(p)}</div>
         </div></article>`;
     }
@@ -131,7 +127,7 @@
           <h3>${esc(p.title)}</h3>
           ${trackTags(p, track)}
           <p>${esc(p.summary)}</p>
-          <div class="meta-line"><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span><span>data updated: <span data-date="${p.slug}">…</span></span></div>
+          <div class="meta-line"><span>${p.rowsLabel || "rows"}: <b data-rows="${p.slug}">…</b></span></div>
           <div class="tags">${p.stack.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</div>
           <div class="actions">${actions(p)}</div>
         </div></article>`).join("") +
