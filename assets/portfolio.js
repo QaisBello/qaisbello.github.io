@@ -111,7 +111,7 @@ window.PROJECTS = [
     summary: "Three campus blood drives in Lagos, cleaned and linked by anonymous donor ID. Follows donors from check-in to whether they came back.",
     headline: "92% promised to come back. 7% did.",
     highlights: [
-      ["273", "donor check-ins"],
+      ["58%", "of deferrals: low haemoglobin"],
       ["70%", "able to donate"],
       ["49% vs 6%", "women vs men deferred"]
     ],
@@ -225,6 +225,27 @@ window.PROJECTS = [
     extraTools: ["Excel"],
     cta: "Open live readout",
     published: "2026-10-10T15:43"
+  },
+  {
+    slug: "email-experiment",
+    tracks: ["data-science", "data-analytics"],
+    status: "live",
+    title: "Send the men's email.",
+    client: "Email experiment · 64,000 customers",
+    summary: "Netflix-style experimentation on a public email test: a metric registry, validity checks first, a guardrail, always-valid p-values for daily peeking, CUPED, and a decision memo with a profit calculator.",
+    headline: "+$0.77 per customer. Safe to call by day 5.",
+    highlights: [["+118%", "spend vs no email"], ["19% → 0.2%", "false alarms when peeking daily"], ["0", "customer groups harmed"]],
+    page: "data-science/email-experiment/index.html",
+    powerbi: "powerbi/Email_Experiment.pbip",
+    repo: "QaisBello/email-experiment",
+    branch: "main",
+    dataFile: "data/cleaned/summary.json",
+    rows: 64000,
+    image: { dark: "assets/img/emailexp-dark.jpg", light: "assets/img/emailexp-light.jpg" },
+    stack: ["Python", "SciPy", "statsmodels", "pytest", "GitHub Actions", "D3.js"],
+    extraTools: ["Excel"],
+    cta: "Open live readout",
+    published: "2026-10-29T17:30"
   },
   {
     slug: "beam-lab",
