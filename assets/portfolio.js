@@ -227,6 +227,26 @@ window.PROJECTS = [
     published: "2026-10-10T15:43"
   },
   {
+    slug: "london-short-lets",
+    tracks: ["data-engineering", "data-analytics"],
+    status: "live",
+    title: "13%, 26%, 34% or 58%?",
+    client: "London short lets · Inside Airbnb",
+    summary: "Airbnb-style metric layer on 91,954 London listings: every metric defined once in YAML, DuckDB models, quality checks that block publishing, and one output read by the web page, Power BI and Excel. Ends in a decision memo on full-time short lets.",
+    headline: "One occupancy number. 12,550 homes past 90 nights.",
+    highlights: [["4 → 1", "occupancy definitions"], ["12,550", "entire homes over 90 nights"], ["51%", "in five boroughs"]],
+    page: "data-engineering/london-short-lets/index.html",
+    powerbi: "powerbi/London_Short_Lets.pbip",
+    repo: "QaisBello/london-short-lets",
+    branch: "main",
+    dataFile: "data/published/metric_values.csv",
+    rows: 91954,
+    image: { dark: "assets/img/shortlets-dark.jpg", light: "assets/img/shortlets-light.jpg" },
+    stack: ["SQL", "DuckDB", "Python", "pytest", "GitHub Actions", "D3.js", "Excel", "Power BI"],
+    cta: "Open live page",
+    published: "2026-10-29T20:30"
+  },
+  {
     slug: "email-experiment",
     tracks: ["data-science", "data-analytics"],
     status: "live",
